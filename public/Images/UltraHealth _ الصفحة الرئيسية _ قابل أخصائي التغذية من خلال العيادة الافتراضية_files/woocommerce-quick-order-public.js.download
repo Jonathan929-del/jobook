@@ -1,0 +1,574 @@
+(function( $ ) {
+	'use strict';
+
+	// Create the defaults once
+	var pluginName = "quickOrder",
+		defaults = {
+			'btnText' : 'Quick View',
+			'modalHeightAuto' : '1',
+		};
+
+	// The actual plugin constructor
+	function Plugin ( element, options ) {
+		this.element = element;
+		
+		this.settings = $.extend( {}, defaults, options );
+		this._defaults = defaults;
+		this.trans = this.settings.trans;
+		this._name = pluginName;
+		this.init();
+	}
+
+	// Avoid Plugin.prototype conflicts
+	$.extend( Plugin.prototype, {
+		init: function() {
+			this.window = $(window);
+			this.documentHeight = $( document ).height();
+			this.windowHeight = this.window.height();
+			this.product = {};
+			this.elements = {};
+
+			this.elements.quickOrderTable = $('#woocommerce-quick-order.datatables');
+			this.elements.quickOrderSearch = $('#woocommerce-quick-order-search tbody');
+
+			this.quickOrderTable();
+			this.quickOrderSearch();
+		},
+		quickOrderTable : function() {
+
+			var that = this;
+			if(that.elements.quickOrderTable.length < 1) {
+				return false;
+			}
+
+			if(woocommerce_quick_order_options.lightbox == "1") {
+				new LuminousGallery(document.querySelectorAll(".woocommerce-quick-order-lightbox"));
+	        }
+
+	        $(document).on('change', '.quick-order-table-value-qt input, .quick-order-table-value-mq input', function(e) {
+	        	var $this = $(this);
+	        	var maxExists = parseInt( $this.attr('max') );
+	        	if(maxExists > 0) {
+
+	        		var currentVal = $this.val();
+	        		if(currentVal >= maxExists) {
+	        			$this.val( maxExists )
+	        		}
+	        	}
+
+	        });
+
+			var options = that.elements.quickOrderTable.data('options');
+
+			if(options.orderColumn && options.orderColumnType) {
+				options.order = [[ options.orderColumn, options.orderColumnType ]];
+			}
+
+			if(typeof options.buttons == "undefined" || options.buttons == "") {
+				options.buttons = [];
+			} else {
+
+				$.each(options.buttons, function(i, index) {
+					options.buttons[i].exportOptions = {
+		                format: {
+		                    header: function ( data, row, column, node ) {
+		                        var newdata = data;
+		                        // newdata = newdata.replace(/<[^>]*>/gi, '');
+		                          var dummyDiv =  document.createElement( "div" );
+								  dummyDiv.innerHTML = newdata;
+								  // return Array.from( dummyDiv.childNodes ).filter( s => s.nodeType == 3 ).map( s => s.nodeValue ).join("");
+								  return Array.from( dummyDiv.childNodes ).filter( function(s) { return s.nodeType === 3; } ).map( function(s) { return s.nodeValue; } ).join("");
+		                        return newdata;
+		                    }
+		                }
+		            }
+				});
+			}
+
+			if(options.filtering == "1") {
+				options.initComplete = function () {
+		            this.api().columns().every( function () {
+		                var column = this;
+		                var header = $(column.header());
+
+		                if(
+		                	header[0].id == "quick-order-table-header-im" || 
+		                	header[0].id == "quick-order-table-header-ca" || 
+		                	header[0].id == "quick-order-table-header-rm" || 
+		                	header[0].id == "quick-order-table-header-mc" ||
+		                	header[0].id == "quick-order-table-header-mq" ||
+		                	header[0].id == "quick-order-table-header-eq" ||
+		                	header[0].id == "quick-order-table-header-pd" ||
+		                	header[0].id == "quick-order-table-header-wi" ||
+		                	header[0].id == "quick-order-table-header-qt"
+		                	) {
+		                	return;
+		                }
+		                var select = $('<select><option value="">' + that.trans.showAll + '</option></select>')
+		                    .appendTo( $(column.header()) )
+		                    .on( 'change', function () {
+		                        var val = $.fn.dataTable.util.escapeRegex(
+		                            $(this).val()
+		                        );
+		 
+		                        column
+		                            .search( val ? '^'+val+'$' : '', true, false )
+		                            .draw();
+		                    } );
+
+							column.data().unique().sort().each( function ( d, j ) {
+								var d = d.replace(/<(?:.|\n)*?>/gm, '');
+							    if(column.search() === '^'+d+'$'){
+							        select.append( '<option value="' + d + '" selected="selected">'+d+'</option>' )
+							    } else {
+							        select.append( '<option value="' + d + '">' + d + '</option>' )
+							    }
+							} );
+		            } );
+		        };
+	        }
+
+	        // Column Search
+	        if(options.columnSearch == "1") {
+			    that.elements.quickOrderTable.find('thead tr').clone(true).appendTo( that.elements.quickOrderTable.find( 'thead') );
+			    that.elements.quickOrderTable.find('thead tr:eq(1) th').each( function (i) {
+
+			    	var $this = $(this);
+			    	var theadID = $this.prop('id');
+					if(theadID == "variations-table-header-im" 
+		                	|| theadID == "quick-order-table-header-ca" 
+		                	|| theadID == "quick-order-table-header-mc"
+		                	|| theadID == "quick-order-table-header-mq"
+		                	// || theadID == "quick-order-table-header-st"
+		                	|| theadID == "quick-order-table-header-qt"
+		                	|| theadID == "quick-order-table-header-wi"
+		                	|| theadID == "quick-order-table-header-eq"
+		                	|| theadID == "quick-order-table-header-pd"
+                	) { 
+						$this.html('');
+						return;
+            		}
+
+			        var title = $this.text();
+
+			        $this.html( '<input type="text" placeholder="' + that.trans.searchText + ' ' + title + '" />' );
+			 
+			        $( 'input', this ).on( 'keyup change', function () {
+			            if ( table.column(i).search() !== this.value ) {
+			                table
+			                    .column(i)
+			                    .search( this.value )
+			                    .draw();
+			            }
+			        } );
+			    } );
+        	}
+
+        	if(options.fixedHeaderA == "1" || options.fixedFooterA == "1") {
+        		options.fixedHeader = {
+        			header: false,
+					headerOffset: parseInt(options.fixedHeaderOffset),
+					footer: false,
+					footerOffset: parseInt(options.fixedFooterOffset),
+        		};
+
+        		if(options.fixedHeaderA == "1") {
+        			options.fixedHeader.header = true;
+        		}
+
+        		if(options.fixedFooterA == "1") {
+        			options.fixedHeader.footer = true;
+        		}
+    		}
+
+    		options.columnDefs = [
+				{ "type": "formatted-num", "targets": that.settings.numericSortingColumns }
+			];
+
+			var table = that.elements.quickOrderTable.DataTable(options);
+
+			that.quickOrderTableMultipleAddToCart();
+			that.quickOrderTableVariationsAddToCart();
+		},
+		quickOrderTableVariationsAddToCart : function() {
+
+			var that = this;
+
+			var variationsTableAddToCart = $('.woocommerce-quick-order-table-add-to-cart button');
+			if ( variationsTableAddToCart.length > 0 ) {
+				
+				$(document).on('click', '.woocommerce-quick-order-single-add-to-cart-button', function(e) {
+					e.preventDefault();
+
+					var $thisbutton = $(this);
+					$thisbutton.removeClass( 'added' );
+					$thisbutton.addClass( 'loading' );
+					
+
+					var product_id = $thisbutton.parent().find('input[name="product_id"]').val();
+					var variation_id = $thisbutton.parent().find('input[name="variation_id"]').val();
+					var variation = $thisbutton.parent().find('input[name="variation"]').val();
+					var quantity = 1;
+					var quantityField = $('#quick-order-table-row-' + variation_id + ' input[name="quantity"]');
+
+					if(!variation_id) {
+						product_id = $thisbutton.val();
+						var quantityField = $('#quick-order-table-row-' + product_id + ' input[name="quantity"]');
+					}
+					
+					if(quantityField.length > 0) {
+						quantity = quantityField.val();
+					}
+
+					var data = {
+						'product_id' : product_id,
+						'variation_id' : variation_id,
+						'quantity' : quantity,
+						'variation' : variation,
+						'action' : 'woocommerce_quick_order_table_add_to_cart',
+					};
+
+					$.post( woocommerce_params.ajax_url, data, function( response ) {
+						
+						if ( ! response ) {
+							return;
+						}
+						
+						$thisbutton.text(woocommerce_quick_order_options.trans.addedToCart);
+
+						$( document.body ).trigger( 'added_to_cart', [ response.fragments, response.cart_hash, $thisbutton ] );
+
+						// if(woocommerce_quick_order_table_options.redirectToCart == "yes") {
+						// 	window.location.replace(woocommerce_quick_order_table_options.cartURL);
+						// }
+					});
+
+				});
+			}
+		},
+		quickOrderTableMultipleAddToCart : function() {
+
+			var that = this;
+
+			var quickOrderTableMultipleAddToCart = $('#quick-order-table-multiple-add-to-cart-btn');
+			var quickOrderTableMultipleAddToCartProducts = $('.quick-order-table-multiple-add-to-cart-products');
+
+			if ( quickOrderTableMultipleAddToCart.length < 1 ) {
+				return false;
+			}
+
+			// Enable / Disable Button when checkbox checked
+			that.elements.quickOrderTable.on('change', quickOrderTableMultipleAddToCartProducts, function(e) {
+				var somethingChecked = false;
+
+				$('.quick-order-table-multiple-add-to-cart-products').each(function(i, index) {
+
+					if($(this).is(':checked')) {
+						somethingChecked = true;
+					}
+				});
+				if(somethingChecked) {
+					quickOrderTableMultipleAddToCart.prop("disabled", false); 
+				} else {
+					quickOrderTableMultipleAddToCart.prop("disabled", true); 
+				}
+			});
+
+			var quickOrderTableMultipleQtAddToCartProducts = $('.quick-order-table-multiple-quantity-add-to-cart-products input');
+			// Enable / Disable Button when checkbox checked
+			if(quickOrderTableMultipleQtAddToCartProducts.length > 0) {
+				that.elements.quickOrderTable.on('change', quickOrderTableMultipleQtAddToCartProducts, function(e) {
+					var somethingChecked = false;
+
+					$('.quick-order-table-multiple-quantity-add-to-cart-products input').each(function(i, index) {
+
+						if($(this).val() > 0) {
+							somethingChecked = true;
+						}
+					});
+					if(somethingChecked) {
+						quickOrderTableMultipleAddToCart.prop("disabled", false); 
+					} else {
+						quickOrderTableMultipleAddToCart.prop("disabled", true); 
+					}
+				});
+			}
+
+			// Multiple Variations add to Cart
+			quickOrderTableMultipleAddToCart.on('click', function(e) {
+				e.preventDefault();
+
+				var $thisbutton = $(this);
+				$thisbutton.removeClass( 'added' );
+				$thisbutton.addClass( 'loading' );
+
+				var data = {
+					'action' : 'woocommerce_quick_order_add_all_to_cart',
+					'products' : [],
+				};
+
+				$('.quick-order-table-multiple-add-to-cart-products').each(function(i, index) {
+					var checkbox = $(this);
+					if(checkbox.is(':checked')) {
+
+						var product_id = checkbox.data('product_id');
+						var product_quantity = checkbox.parent().parent().find('input[name="quantity"]').val();
+
+						var product = {
+							id : product_id,
+							quantity : parseInt(product_quantity),
+						};
+						data.products.push(product);
+						checkbox.prop('checked', false);
+					}
+				});
+
+				$('.quick-order-table-multiple-quantity-add-to-cart-products input').each(function(i, index) {
+
+					var input = $(this);
+
+					if(input.val() > 0) {
+
+						var product_id = input.parent().parent().parent().find('.quick-order-table-multiple-quantity-add-to-cart-products').data('product_id');
+						var product_quantity = input.parent().parent().find('input[name="quantity"]').val();
+
+						var product = {
+							id : product_id,
+							quantity : parseInt(product_quantity),
+						};
+						data.products.push(product);
+						input.val(0);
+					}
+				});
+				
+				if(data.products.length < 1) {
+					alert('No Products selected');
+				}
+
+				$.post( woocommerce_params.ajax_url, data, function( response ) {
+					
+					if ( ! response ) {
+						return;
+					}					
+
+					$( document.body ).trigger( 'added_to_cart', [ response.fragments, response.cart_hash, $thisbutton ] );
+				});
+
+			});
+		},
+		quickOrderSearch : function() {
+
+			var that = this;
+			if(that.elements.quickOrderSearch.length < 1) {
+				return false;
+			}
+
+			that.quickOrderSearchAction();
+			that.quickOrderSearchAddProduct();
+			that.quickOrderSearchAddRow();
+			that.quickOrderSearchAddAllToCart();
+			that.quickOrderSearchRemoveRow();
+		},
+		quickOrderSearchAction : function() {
+
+			var that = this;
+			var delayTimer;
+
+			$(that.elements.quickOrderSearch).on('keyup', '.woocommerce-quick-order-search-input-field', function(e) {
+                var $this = $(this);
+                var term = $this.val();
+
+                $('.woocommerce-quick-order-search-results').remove();
+
+                if(term.length <= 2) {
+	                var width = 100 / 2 * term.length;
+	                $this.blings('.woocommerce-quick-order-search-input-indication').css('width', width + '%');
+                }
+
+                if(term.length > 2) {
+                    clearTimeout(delayTimer);
+                    delayTimer = setTimeout(function() {
+                        $.ajax({
+                            type : 'post',
+                            url : that.settings.ajax_url,
+                            dataType : 'json',
+                            data : {
+                                term : term,
+                                action : 'quick_order_search_products'
+                            },
+                            success : function( response ) {
+                            	var html = '<div class="woocommerce-quick-order-search-results">';
+                            	html += '<div class="woocommerce-quick-order-search-message">';
+                            		html += response.message;
+                        		html += '</div>';
+                            	if(response.products.length > 0) {
+                            		$.each(response.products, function(i, product) {
+										html += '<a href="#" data-product-id="' + product.ID + '" data-product-img="' + product.img + '"data-product-name="' + escape(product.name) + '" data-product-price="' + product.price + '"  data-product-sku="' + product.sku + '" class="woocommerce-quick-order-search-results-item">' +
+											'<div class="woocommerce-quick-order-search-results-item-image">' +
+												'<img src="' + product.img + '" alt="' + product.name + '" />' + 
+											'</div>' +
+											'<div class="woocommerce-quick-order-search-results-item-name">' +
+												product.name +
+												'<span class="woocommerce-quick-order-search-results-item-sku">(' + that.trans.sku + product.sku + ' / ' + that.trans.price + product.price + ')</span>' +
+											'</div>' +
+											'<div class="clear clearfix"></div>' +
+										'</a>';
+                            		});
+                        		}
+
+                            	html += '</div>';
+
+                            	$(html).insertAfter($this);
+                            }
+                         });
+                    }, 700);
+                }
+			});
+		},
+		quickOrderSearchAddProduct : function() {
+
+			var that = this;
+			$(that.elements.quickOrderSearch).on('click', '.woocommerce-quick-order-search-results-item', function(e) {
+				e.preventDefault();
+
+				var $this = $(this);
+				var tr = $this.parents('tr');
+
+				var inputField = tr.find('.woocommerce-quick-order-search-input-field');
+				var priceField = tr.find('.woocommerce-quick-order-search-price');
+				var quantityField = tr.find('.woocommerce-quick-order-search-quantity-field');
+				var actionsField = tr.find('.woocommerce-quick-order-search-actions');
+
+				inputField.val( unescape( $this.data('product-name') ) + ' (' + $this.data('product-sku') + ')');
+				inputField.data('product-id', $this.data('product-id'));
+				
+				inputField.addClass('woocommerce-quick-order-search-input-field-has-image').css('background-image', 'url(' + $this.data('product-img') + ')');
+				priceField.html($this.data('product-price'));
+
+				actionsField.html(
+					'<a href="#" class="woocommerce-quick-order-search-remove-row">' +
+						'<i class="fa fa-times"></i>' +
+					'</a>');
+
+				$this.parent('.woocommerce-quick-order-search-results').fadeOut().remove();
+				$('.woocommerce-quick-order-search-add-row').trigger('click');
+			});
+		},
+		quickOrderSearchAddRow : function() {
+
+			var that = this;
+			var emptyRow = 
+			'<tr>' +
+				'<td data-th="Product" class="woocommerce-quick-order-search-input">' +
+					'<div class="woocommerce-quick-order-search-input-indication"></div>' +
+					'<input type="text" name="woocommerce-quick-order-search-input-field" class="woocommerce-quick-order-search-input-field" ' +
+					'placeholder="' + that.trans.placeholder + '">' +
+				'</td>' +
+				'<td data-th="Price" class="woocommerce-quick-order-search-price">' +
+					'–' +
+				'</td>' +
+				'<td data-th="Quantity" class="woocommerce-quick-order-search-quantity">' +
+					'<input type="number" name="woocommerce-quick-order-quantity-field" class="woocommerce-quick-order-search-quantity-field" value="1">' +
+				'</td>' +
+				'<td class="woocommerce-quick-order-search-actions">' +
+					
+				'</td>' +
+			'</tr>';
+
+			$('.woocommerce-quick-order-search-add-row').on('click', function(e) {
+				e.preventDefault();
+				that.elements.quickOrderSearch.append(emptyRow);
+
+			});
+
+		},
+		quickOrderSearchRemoveRow : function() {
+
+			var that = this;
+
+			$(that.elements.quickOrderSearch).on('click', '.woocommerce-quick-order-search-remove-row', function(e) {
+				e.preventDefault();
+				$(this).parents('tr').fadeOut().remove();
+			});
+		},
+		quickOrderSearchAddAllToCart : function() {
+
+			var that = this;
+
+			$('.woocommerce-quick-order-search-add-to-cart-btn').on('click', function(e) {
+				e.preventDefault();
+				var $thisbutton = $(this);
+
+				var data = {
+					'action' : 'woocommerce_quick_order_add_all_to_cart',
+					'products' : [],
+				};
+
+				var rows = that.elements.quickOrderSearch.find('tr');
+				var tr;
+				$.each(rows, function(i, index) {
+
+					tr = $(this);
+
+					var product_id = tr.find('.woocommerce-quick-order-search-input-field').data('product-id');
+					var quantity = tr.find('.woocommerce-quick-order-search-quantity-field').val();
+
+					if(product_id == "" || typeof product_id == "undefined" || quantity == "" || typeof quantity == "undefined") {
+						return true;
+					}
+
+					var product = {
+						id : product_id,
+						quantity : parseInt(quantity),
+					};
+
+					data.products.push(product);
+
+					tr.fadeOut();
+				});
+
+				$.post( woocommerce_params.ajax_url, data, function( response ) {
+					
+					if ( ! response ) {
+						return;
+					}
+
+					// if ( response.error && response.product_url ) {
+					// 	window.location = response.product_url;
+					// 	return;
+					// }
+
+					// // Redirect to cart option
+					// if ( wc_add_to_cart_params.cart_redirect_after_add === 'yes' ) {
+					// 	window.location = wc_add_to_cart_params.cart_url;
+					// 	return;
+					// }
+
+					// Trigger event so themes can refresh other areas.
+					
+
+					$( document.body ).trigger( 'added_to_cart', [ response.fragments, response.cart_hash, $thisbutton ] );
+				});
+			});
+		}
+	} );
+
+	// Constructor wrapper
+	$.fn[ pluginName ] = function( options ) {
+		return this.each( function() {
+			if ( !$.data( this, "plugin_" + pluginName ) ) {
+				$.data( this, "plugin_" +
+					pluginName, new Plugin( this, options ) );
+			}
+		} );
+	};
+
+	$(document).ready(function() {
+
+		$( "body" ).quickOrder( 
+			woocommerce_quick_order_options
+		);
+
+	} );
+
+})( jQuery );
