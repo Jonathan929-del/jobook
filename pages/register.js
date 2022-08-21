@@ -39,6 +39,7 @@ const Register = () => {
     } catch (err) {
       dispatch({type:'USER_LOGIN_FAIL'});
       enqueueSnackbar(err?.response?.data?.message, {variant:'error'});
+      console.log(err);
     }
   }
   useEffect(() => {

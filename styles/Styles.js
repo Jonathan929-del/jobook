@@ -73,13 +73,9 @@ const useStyles = makeStyles({
         }
     },
     responsiveToolbar:{
-        display:'none',
+        display:'flex',
         alignItems:'center',
-        justifyContent:'space-between',
-
-        '@media screen and (max-width:600px)':{
-            display:'flex'
-        }
+        justifyContent:'space-between'
     },
     /************************************************************/
 

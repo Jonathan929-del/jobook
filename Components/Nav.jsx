@@ -16,6 +16,7 @@ const Nav = ({title, user}) => {
   const {state, dispatch} = useContext(Store);
   const {userInfo, darkMode} = state;
   const [anchorEl, setAnchorEl] = useState(false);
+  const [windowWidth, setWindowWidth] = useState();
   const [anotherUserProfile, setAnotherUserProfile] = useState(false);
   const [openState, setOpenState] = useState(false);
   const darkModeHandler = () => {
@@ -45,17 +46,21 @@ const Nav = ({title, user}) => {
     setOpenState(open);
 };
   useEffect(() => {
+    setWindowWidth(window.innerWidth);
     if(user?.name !== userInfo?.name && user){
       setAnotherUserProfile(true);
     }else{
       setAnotherUserProfile(false);
     }
   }, [user?.name]);
+  window.onresize = () => {
+    setWindowWidth(window.innerWidth);
+  };
   
   return (
     <nav>
         <AppBar position='static' className={classes.navbar}>
-            {title === 'Register' && <Toolbar className={classes.spaceBetween}>
+            {windowWidth > 600 && title === 'Register' && <Toolbar className={classes.spaceBetween}>
               <NextLink href='/' passHref>
                 <Link>
                   <Typography className={classes.brand}>JoBook</Typography>
@@ -75,7 +80,7 @@ const Nav = ({title, user}) => {
                 </NextLink>
               </div>
             </Toolbar>}
-            {title === 'Login' && <Toolbar className={classes.spaceBetween}>
+            {windowWidth > 600 && title === 'Login' && <Toolbar className={classes.spaceBetween}>
               <NextLink href='/' passHref>
                 <Link>
                   <Typography className={classes.brand}>JoBook</Typography>
@@ -95,7 +100,7 @@ const Nav = ({title, user}) => {
                 </NextLink>
               </div>
             </Toolbar>}
-            {title === 'Info' && <Toolbar className={classes.spaceBetween}>
+            {windowWidth > 600 && title === 'Info' && <Toolbar className={classes.spaceBetween}>
               <NextLink href='/' passHref>
                 <Link>
                   <Typography className={classes.brand}>JoBook</Typography>
@@ -103,7 +108,7 @@ const Nav = ({title, user}) => {
               </NextLink>
               <Switch onClick={darkModeHandler} checked={darkMode}/>
             </Toolbar>}
-            {title === 'Home Page' && <Toolbar className={classes.spaceBetween}>
+            {windowWidth > 600 && title === 'Home Page' && <Toolbar className={classes.spaceBetween}>
               <NextLink href='/' passHref>
                 <Link>
                   <Typography className={classes.brand}>JoBook</Typography>
@@ -143,7 +148,7 @@ const Nav = ({title, user}) => {
                 )}
               </div>
             </Toolbar>}
-            {title === userInfo?.name && <Toolbar className={classes.spaceBetween}>
+            {windowWidth > 600 && title === userInfo?.name && <Toolbar className={classes.spaceBetween}>
               <NextLink href='/' passHref>
                 <Link>
                   <Typography className={classes.brand}>JoBook</Typography>
@@ -176,7 +181,7 @@ const Nav = ({title, user}) => {
                 )}
               </div>
             </Toolbar>}
-            {anotherUserProfile && <Toolbar className={classes.spaceBetween}>
+            {windowWidth > 600 && anotherUserProfile && <Toolbar className={classes.spaceBetween}>
               <NextLink href='/' passHref>
                 <Link>
                   <Typography className={classes.brand}>JoBook</Typography>
@@ -207,7 +212,7 @@ const Nav = ({title, user}) => {
                 )}
               </div>
             </Toolbar>}
-            <Toolbar className={classes.responsiveToolbar}>
+            {windowWidth < 600 && <Toolbar className={classes.responsiveToolbar}>
               <NextLink href='/' passHref>
                 <Link>
                   <Typography className={classes.brand}>JoBook</Typography>
@@ -218,7 +223,7 @@ const Nav = ({title, user}) => {
               {anotherUserProfile && <input className={classes.navInput} placeholder='Search Friends'/>}
               <Button onClick={toggleDrawer(true)} style={{color:'white'}}><AiOutlineMenu className={classes.menu}/></Button>
               <DrawerCom props={{darkModeHandler, logoutHandler, buttonCloseHandler, buttonClickHandler, title, anchorEl, setAnchorEl, user, openState, toggleDrawer}} />
-            </Toolbar>
+            </Toolbar>}
         </AppBar>
     </nav>
   )
