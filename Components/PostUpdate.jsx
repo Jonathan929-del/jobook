@@ -2,7 +2,7 @@
 import axios from 'axios'
 import dynamic from 'next/dynamic'
 import {Store} from '../Utils/Store'
-import useStyles from '../Styles/Styles'
+import useStyles from '../styles/Styles'
 import {useContext, useEffect, useState} from 'react'
 import {Card, Grid, Typography, Button, Input, Container, Menu, MenuItem} from '@material-ui/core'
 
