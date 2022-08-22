@@ -1,9 +1,9 @@
 // Imports
 import nc from 'next-connect'
 import bcrypt from 'bcryptjs'
-import db from '../../../Server/DBConnnect'
 import {signToken} from '../../../Utils/Auth'
 import User from '../../../Server/Models/User'
+import dbConnection from '../../../Server/DBConnnect'
 
 
 // Handlers
@@ -11,12 +11,11 @@ const handler = nc();
 handler.post(async (req, res) => {
     try {
         const {email, password} = req.body;
-        db.connect();
+        dbConnection();
         const user = await User.findOne({email});
         !user && res.status(404).json({message:'User not found'});
         !bcrypt.compareSync(password, user.password) && res.status(401).json({message:'Wrong password'});
         const token = signToken(user);
-        db.disconnect();
         res.status(201).json({
             token,
             id:user._id,

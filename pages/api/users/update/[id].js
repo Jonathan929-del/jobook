@@ -1,8 +1,8 @@
 // Imports
 import nc from 'next-connect'
-import db from '../../../../Server/DBConnnect'
 import User from '../../../../Server/Models/User'
 import {signToken, isAuth} from '../../../../Utils/Auth'
+import dbConnection from '../../../../Server/DBConnnect'
 
 
 // Handlers
@@ -11,7 +11,7 @@ handler.use(isAuth);
 handler.put(async (req, res) => {
     const {id} = req.query;
     try {
-        db.connect();
+        dbConnection();
         const user = await User.findByIdAndUpdate(id, req.body, {new:true});
         const token = signToken(user);
         res.status(201).json({
@@ -27,7 +27,6 @@ handler.put(async (req, res) => {
             followers:user.followers,
             following:user.following
         });
-        db.disconnect();
     } catch (err) {
         res.status(500).json(err.message);
     }

@@ -68,7 +68,7 @@ const Leftbar = () => {
                             </BottomNavigation>
                         </Box>
                     </Typography>
-                    <List style={{height:'80vh', overflow:'scroll'}}>
+                    <List style={{height:'80vh', overflowY:'scroll'}}>
                         {value === 0 && allUsers.map((user, index) => (
                             <ListItem key={index}>
                                 <Container className={classes.leftBarImgContainer}>

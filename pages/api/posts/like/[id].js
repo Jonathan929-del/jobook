@@ -1,8 +1,8 @@
 // Imports
 import nc from 'next-connect'
 import {isAuth} from '../../../../Utils/Auth'
-import db from '../../../../Server/DBConnnect'
 import Post from '../../../../Server/Models/Post'
+import dbConnection from '../../../../Server/DBConnnect'
 
 
 // Handlers
@@ -11,7 +11,7 @@ handler.use(isAuth);
 handler.put(async (req, res) => {
     const {id} = req.query;
     try {
-        db.connect();
+        dbConnection();
         const {userId} = req.body;
         const post = await Post.findById(id);
         if(post.likes.includes(userId)){
@@ -21,7 +21,6 @@ handler.put(async (req, res) => {
             const updatedPost = await Post.findByIdAndUpdate(id, {$push:{likes:userId}}, {new:true});
             res.status(200).json(updatedPost);
         };
-        db.disconnect();
     } catch (err) {
         res.status(500).json(err.message);
     }

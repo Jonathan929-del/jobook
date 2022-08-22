@@ -1,16 +1,16 @@
 // Imports
 import nc from 'next-connect'
 import bcrypt from 'bcryptjs'
-import db from '../../../Server/DBConnnect'
 import {signToken} from '../../../Utils/Auth'
 import User from '../../../Server/Models/User'
+import dbConnection from '../../../Server/DBConnnect'
 
 
 // Handlers
 const handler = nc();
 handler.post(async (req, res) => {
     try {
-        db.connect();
+        dbConnection();
         const {name, email, password, confirmPassword} = req.body;
         const existingUser = await User.findOne({email});
         existingUser && res.status(401).json({message:'User already exists'});
@@ -34,7 +34,6 @@ handler.post(async (req, res) => {
                 backgroundPic:newUser.backgroundPic
             });
         }
-        db.disconnect();
     } catch (err) {
         res.status(500).json(err.message);
     }

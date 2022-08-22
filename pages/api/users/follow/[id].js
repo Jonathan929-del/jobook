@@ -1,6 +1,6 @@
 // Imports
 import nc from 'next-connect'
-import db from '../../../../Server/DBConnnect'
+import dbConnection from '../../../../Server/DBConnnect'
 import User from '../../../../Server/Models/User'
 import {isAuth, signToken} from '../../../../Utils/Auth'
 
@@ -11,7 +11,7 @@ handler.use(isAuth);
 handler.put(async (req, res) => {
     const {id} = req.query;
     try {
-        db.connect();
+        dbConnection();
         const followedUser = await User.findById(id);
         const follower = await User.findById(req.body.id);
         if(!followedUser.followers.includes(follower._id)){
@@ -35,7 +35,6 @@ handler.put(async (req, res) => {
             followers:follower.followers,
             following:follower.following
         });
-        db.disconnect();
     } catch (err) {
         res.status(500).json(err.message);
     }
