@@ -2,9 +2,22 @@
 import axios from 'axios'
 import NextLink from 'next/link'
 import {Store} from '../Utils/Store'
+import styled from 'styled-components'
 import useStyles from '../styles/Styles'
 import {useContext, useState, useEffect} from 'react'
 import {Box, Drawer, Typography, List, ListItem, Card, Container, Link} from '@material-ui/core'
+
+
+
+// Styles
+const LeftbarImgContainer = styled.div`
+  width:100%;
+  height:100px;
+  display:flex;
+  margin-left:20px;
+  align-items:center;
+  justify-content:flex-start;
+`
 
 
 // Main Function
@@ -39,7 +52,7 @@ const Commentslist = ({isCommentsOpened, post, commentsToggler, commentHandler})
             {comments.map(comment => (
               <ListItem fullWidth>
                 <Card fullWidth style={{width:'100%'}}>
-                  <Container className={classes.leftBarImgContainer} style={{width:'100%'}}>
+                  <LeftbarImgContainer>
                       <NextLink href={`/profile/${comment?.userId}`} passHref>
                           <Link>
                               <img src={comment?.user.profilePic !== '' ? `https://res.cloudinary.com/jobook/image/upload/v1656746051/jobook/profilePic-${comment?.userId}` : '/Images/NoUser.png'} className={classes.leftBarProfilePic}/>
@@ -50,7 +63,7 @@ const Commentslist = ({isCommentsOpened, post, commentsToggler, commentHandler})
                               <Typography component='p' style={{color:darkMode ? '#fff' : '#000'}}>{comment?.user.name}</Typography>
                           </Link>
                       </NextLink>
-                  </Container>
+                  </LeftbarImgContainer>
                   <Typography className={classes.comment}>{comment.comment}</Typography>
                 </Card>
               </ListItem>

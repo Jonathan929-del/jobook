@@ -162,13 +162,6 @@ const useStyles = makeStyles({
         borderRadius:'50%',
         margin:'0 5px 0 -10px',
     },
-    leftBarImgContainer:{
-        height:100,
-        width:230,
-        display:'flex',
-        alignItems:'center',
-        justifyContent:'flex-start'
-    },
     leftBarFriendsContainer:{
         width:'100%'
     },
@@ -206,14 +199,6 @@ const useStyles = makeStyles({
     postUsername:{
         '@media screen and (max-width:400px)':{
             fontSize:13
-        }
-    },
-    feeling:{
-        marginLeft:10,
-        fontSize:'0.7rem',
-        '@media screen and (max-width:400px)':{
-            fontSize:'0.5rem',
-            marginLeft:5
         }
     },
     postUpperIcon:{
@@ -543,7 +528,7 @@ const useStyles = makeStyles({
         height:350,
         width:'100%',
         overflow:'hidden',
-        padding:'66px 0 0 281px',
+        padding:'66px 0 0 251px',
         '@media screen and (max-width:600px)':{
             padding:'58px 0'
         }

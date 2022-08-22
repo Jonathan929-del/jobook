@@ -2,9 +2,23 @@
 import axios from 'axios'
 import NextLink from 'next/link'
 import {Store} from '../Utils/Store'
+import styled from 'styled-components'
 import useStyles from '../styles/Styles'
 import {useContext, useState, useEffect} from 'react'
 import {Box, Drawer, Typography, List, ListItem, Container, Link} from '@material-ui/core'
+
+
+
+// Styles
+const LeftbarImgContainer = styled.div`
+  width:100%;
+  height:100px;
+  display:flex;
+  margin-left:20px;
+  align-items:center;
+  justify-content:flex-start;
+`
+
 
 
 // Main Function
@@ -36,7 +50,7 @@ const Likeslist = ({isLikesOpened, post, likesToggler, isLikeClicked}) => {
           <List>
             {users.map(user => (
               <ListItem>
-                <Container className={classes.leftBarImgContainer}>
+                <LeftbarImgContainer>
                     <NextLink href={`/profile/${user?._id}`} passHref>
                         <Link>
                             <img src={user?.profilePic !== '' ? `https://res.cloudinary.com/jobook/image/upload/v1656746051/jobook/profilePic-${user?._id}` : '/Images/NoUser.png'} className={classes.leftBarProfilePic}/>
@@ -47,7 +61,7 @@ const Likeslist = ({isLikesOpened, post, likesToggler, isLikeClicked}) => {
                             <Typography component='p' style={{color:darkMode ? '#fff' : '#000'}}>{user?.name}</Typography>
                         </Link>
                     </NextLink>
-                </Container>
+                </LeftbarImgContainer>
             </ListItem>
             ))}
           </List>

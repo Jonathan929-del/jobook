@@ -7,17 +7,38 @@ import {Store} from '../Utils/Store'
 import {useSnackbar} from 'notistack'
 import PostUpdate from './PostUpdate'
 import {IoSend} from 'react-icons/io5'
+import styled from 'styled-components'
 import useStyles from '../styles/Styles'
 import {AiFillLike} from 'react-icons/ai'
+import CommentsList from './CommentsList'
 import {BiDotsVerticalRounded} from 'react-icons/bi'
 import {useContext, useEffect, useState} from 'react'
 import {Button, Card, Grid, Input, Link, Typography, Menu, MenuItem} from '@material-ui/core'
-import CommentsList from './CommentsList'
+
+
+
+// Styles
+const PostImgContainer = styled.div`
+  width:100%;
+  height:100px;
+  display:flex;
+  margin-left:10px;
+  align-items:center;
+  justify-content:flex-start;
+`
+const Feeling = styled.span`
+  margin-left:10px;
+  font-size:0.7rem;
+
+  @media screen and (max-width:400px){
+      font-size:0.5rem;
+      margin-left:5px;
+  }
+`
 
 
 // Main Function
 const Post = ({post}) => {
-
 
   // Variables
   const classes = useStyles();
@@ -130,7 +151,7 @@ const Post = ({post}) => {
       <CommentsList isCommentsOpened={isCommentsOpened} commentsToggler={commentsToggler} commentHandler={commentHandler} post={post}/>
       <Grid container>
         <Grid item className={classes.postUserNameArea}>
-            <div className={classes.postImgContainer}>
+            <PostImgContainer>
                 <NextLink href={`/profile/${post.userId}`} passHref>
                     <Link>
                         <img src={post?.user?.profilePic ? profileImgUrl : '/Images/NoUser.png'} className={classes.postProfilePic}/>
@@ -141,9 +162,9 @@ const Post = ({post}) => {
                         <Typography component='p' style={{color:darkMode ? '#fff' : '#000'}} className={classes.postUsername}>{post?.user.name}</Typography>
                     </Link>
                 </NextLink>
-                {post.mood && <Typography className={classes.feeling}>is feeling {post.mood}</Typography>}
+                {post.mood && <Feeling>is feeling {post.mood}</Feeling>}
                 <Typography component='span' className={classes.postDate}>{moment(post.createdAt).fromNow()}</Typography>
-            </div>
+            </PostImgContainer>
           {post?.userId === userInfo?.id && <Typography>
             <Button onClick={buttonClickHandler} className={classes.button} aria-controls='menu' aria-haspopup='true'>
               <BiDotsVerticalRounded className={classes.postUpperIcon}/>
