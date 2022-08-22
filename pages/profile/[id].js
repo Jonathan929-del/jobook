@@ -162,7 +162,6 @@ export const getServerSideProps = async context => {
     const allPosts = await Post.find();
     const userPosts = allPosts.filter(post => post.userId === id);
     const stringifiedPosts = JSON.stringify(userPosts);
-    await db.disconnect();
 
     return {props:{user:JSON.parse(stringifiedUser), posts:JSON.parse(stringifiedPosts)}};
 }
