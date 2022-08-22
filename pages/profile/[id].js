@@ -1,7 +1,6 @@
 // Imports
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import dynamic from 'next/dynamic'
 import {Store} from '../../Utils/Store'
 import Feed from '../../Components/Feed'
 import db from '../../Server/DBConnnect'
@@ -167,4 +166,4 @@ export const getServerSideProps = async context => {
 
     return {props:{user:JSON.parse(stringifiedUser), posts:JSON.parse(stringifiedPosts)}};
 }
-export default dynamic(() => Promise.resolve(Profile), {ssr:false});
+export default Profile;

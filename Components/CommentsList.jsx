@@ -1,6 +1,5 @@
 /// Imports
 import axios from 'axios'
-import dynamic from 'next/dynamic'
 import NextLink from 'next/link'
 import {Store} from '../Utils/Store'
 import useStyles from '../styles/Styles'
@@ -65,4 +64,4 @@ const Commentslist = ({isCommentsOpened, post, commentsToggler, commentHandler})
 
 
 // Export
-export default dynamic(() => Promise.resolve(Commentslist), {ssr:false});
+export default Commentslist

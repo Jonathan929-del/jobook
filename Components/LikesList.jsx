@@ -1,6 +1,5 @@
 // Imports
 import axios from 'axios'
-import dynamic from 'next/dynamic'
 import NextLink from 'next/link'
 import {Store} from '../Utils/Store'
 import useStyles from '../styles/Styles'
@@ -60,4 +59,4 @@ const Likeslist = ({isLikesOpened, post, likesToggler, isLikeClicked}) => {
 
 
 // Export
-export default dynamic(() => Promise.resolve(Likeslist), {ssr:false});
+export default Likeslist;

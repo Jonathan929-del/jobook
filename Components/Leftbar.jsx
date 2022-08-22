@@ -1,7 +1,6 @@
 // Imports
 import axios from 'axios'
 import NextLink from 'next/link'
-import dynamic from 'next/dynamic'
 import {Store} from '../Utils/Store'
 import useStyles from '../styles/Styles'
 import {useContext, useEffect, useState} from 'react'
@@ -126,4 +125,4 @@ const Leftbar = () => {
 
 
 // Export
-export default dynamic(() => Promise.resolve(Leftbar), {ssr:false});
+export default Leftbar;

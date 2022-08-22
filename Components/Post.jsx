@@ -2,7 +2,6 @@
 import axios from 'axios'
 import moment from 'moment'
 import NextLink from 'next/link'
-import dynamic from 'next/dynamic'
 import Likeslist from './LikesList'
 import {Store} from '../Utils/Store'
 import {useSnackbar} from 'notistack'
@@ -188,4 +187,4 @@ const Post = ({post}) => {
 
 
 // Export
-export default dynamic(() => Promise.resolve(Post), {ssr:false});
+export default Post;

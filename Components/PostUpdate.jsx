@@ -160,4 +160,4 @@ const PostUpdate = ({post, setIsUpdate}) => {
 
 
 // Export
-export default dynamic(() => Promise.resolve(PostUpdate), {ssr:false});
+export default PostUpdate;

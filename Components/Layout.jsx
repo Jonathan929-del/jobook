@@ -2,7 +2,6 @@
 import Nav from './Nav'
 import Head from 'next/head'
 import Leftbar from './Leftbar'
-import dynamic from 'next/dynamic'
 import {Store} from '../Utils/Store'
 import useStyles from '../styles/Styles'
 import {useContext, useEffect, useState} from 'react'
@@ -75,4 +74,4 @@ const Layout = ({children, title, user}) => {
 
 
 // Export
-export default dynamic(() => Promise.resolve(Layout), {ssr:false});
+export default Layout;

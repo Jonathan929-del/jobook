@@ -2,7 +2,6 @@
 import axios from 'axios'
 import Post from './Post'
 import Share from './Share'
-import dynamic from 'next/dynamic'
 import {Store} from '../Utils/Store'
 import useStyles from '../styles/Styles'
 import {useContext, useEffect, useState} from 'react'
@@ -54,4 +53,4 @@ const Feed = ({posts, user}) => {
 
 
 // Export
-export default dynamic(() => Promise.resolve(Feed), {ssr:false});
+export default Feed;

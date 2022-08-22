@@ -1,7 +1,6 @@
 // Imports
 import Cookies from 'js-cookie'
 import NextLink from 'next/link'
-import dynamic from 'next/dynamic'
 import {Store} from '../Utils/Store'
 import DrawerCom from './DrawerCom'
 import useStyles from '../styles/Styles'
@@ -59,7 +58,7 @@ const Nav = ({title, user}) => {
   
   return (
     <nav>
-        <AppBar position='static' className={classes.navbar}>
+        <AppBar className={classes.navbar}>
             {windowWidth > 600 && title === 'Register' && <Toolbar className={classes.spaceBetween}>
               <NextLink href='/' passHref>
                 <Link>
@@ -231,4 +230,4 @@ const Nav = ({title, user}) => {
 
 
 // Export
-export default dynamic(() => Promise.resolve(Nav), {ssr:false});
+export default Nav;

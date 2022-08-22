@@ -1,7 +1,6 @@
 // Imports
 import axios from 'axios'
 import NextLink from 'next/link'
-import dynamic from 'next/dynamic'
 import {Store} from '../Utils/Store'
 import {useSnackbar} from 'notistack'
 import useStyles from '../styles/Styles'
@@ -197,4 +196,4 @@ const Share = () => {
 
 
 // Export
-export default dynamic(() => Promise.resolve(Share), {ssr:false});
+export default Share;
