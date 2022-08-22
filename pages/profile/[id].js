@@ -3,11 +3,11 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import {Store} from '../../Utils/Store'
 import Feed from '../../Components/Feed'
-import db from '../../Server/DBConnnect'
 import useStyles from '../../styles/Styles'
 import User from '../../Server/Models/User'
 import Post from '../../Server/Models/Post'
 import Layout from '../../Components/Layout'
+import dbConnection from '../../Server/DBConnnect'
 import {useContext, useEffect, useState} from 'react'
 import {Box, Container, Typography, Button, Image} from '@material-ui/core'
 
@@ -156,7 +156,7 @@ export const getServerSideProps = async context => {
     const {params} = context;
     const {id} = params;
 
-    await db.connect();
+    await dbConnection();
     const user = await User.findById(id);
     const stringifiedUser = JSON.stringify(user);
     const allPosts = await Post.find();

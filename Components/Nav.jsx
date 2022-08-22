@@ -52,9 +52,9 @@ const Nav = ({title, user}) => {
       setAnotherUserProfile(false);
     }
   }, [user?.name]);
-  window.onresize = () => {
-    setWindowWidth(window.innerWidth);
-  };
+  // window.onresize = () => {
+  //   setWindowWidth(window.innerWidth);
+  // };
   
   return (
     <nav>
