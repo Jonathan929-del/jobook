@@ -28,10 +28,10 @@ const PostImgContainer = styled.div`
 `
 const Feeling = styled.span`
   margin-left:10px;
-  font-size:0.7rem;
+  font-size:13px;
 
   @media screen and (max-width:400px){
-      font-size:0.5rem;
+      font-size:11px;
       margin-left:5px;
   }
 `
