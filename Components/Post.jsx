@@ -50,6 +50,35 @@ const PostDate = styled.span`
     font-size:10px;
   }
 `
+const PostForm = styled.form`
+  width:100%;
+  display:flex;
+  position:relative;
+  flex-direction:column;
+`
+const CommentPostButton = styled.button`
+  right:20px;
+  top:10px;
+  border:none;
+  outline:none;
+  color:white;
+  cursor:pointer;
+  position:absolute;
+  transition:0.2s linear;
+  background-color:transparent;
+
+  &:hover{
+    color:#1877f2;
+  }
+`
+const PostCaption = styled.p`
+  margin-left:30px;
+
+  @media screen and (max-width:400px){
+    font-size:15px;
+    margin-left:5px;
+  }
+`
 
 
 // Main Function
@@ -195,16 +224,16 @@ const Post = ({post}) => {
           </Typography>}
         </Grid>
         <Grid item>
-          <Typography className={classes.postCaption}>{post.caption}</Typography>
+          <PostCaption>{post.caption}</PostCaption>
         </Grid>
         {post.img && <Grid item>
           <img src={img} style={{width:'100%'}}/>
         </Grid>}
         <Grid item className={classes.postInputContainer}>
-          <form className={classes.postForm} onSubmit={commentHandler}>
+          <PostForm onSubmit={commentHandler}>
             <Input fullWidth placeholder={`Leave ${post?.user.name.split(' ')[0]} a comment`} className={classes.postInput} value={commentText} onChange={e => commentTextHandler(e.target.value)}/>
-            <Button type='submit' className={classes.commentPostButton}><IoSend /></Button>
-          </form>
+            <CommentPostButton><IoSend /></CommentPostButton>
+          </PostForm>
         </Grid>
         <Grid item className={classes.postBottom}>
           <div className={classes.likesContainer}>

@@ -205,13 +205,6 @@ const useStyles = makeStyles({
         fontSize:25,
         cursor:'pointer'
     },
-    postCaption:{
-        marginLeft:10,
-        '@media screen and (max-width:400px)':{
-            marginLeft:5,
-            fontSize:'0.8rem',
-        }
-    },
     postBottom:{
         width:'100%',
         display:'flex',
@@ -240,15 +233,9 @@ const useStyles = makeStyles({
     },
     postInput:{
         height:50,
-        fontSize:13,
+        fontSize:11,
         width:'100%',
         paddingLeft:15,
-    },
-    commentPostButton:{
-        top:10,
-        right:0,
-        fontSize:15,
-        position:'absolute'
     },
     likesContainer:{
         display:'flex',
@@ -382,20 +369,15 @@ const useStyles = makeStyles({
         marginBottom:50
     },
     shareInput:{
-        height:100,
+        padding:'30px 0',
+        fontSize:12,
         width:'100%',
         paddingLeft:30,
-        fontSize:'0.7rem',
+
         '@media screen and (max-width:400px)':{
             height:70,
             paddingLeft:10
         }
-    },
-    postForm:{
-        width:'100%',
-        display:'flex',
-        position:'relative',
-        flexDirection:'column',
     },
     profileImgContainer:{
         height:70,

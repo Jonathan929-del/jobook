@@ -3,10 +3,24 @@ import axios from 'axios'
 import NextLink from 'next/link'
 import {Store} from '../Utils/Store'
 import {useSnackbar} from 'notistack'
+import styled from 'styled-components'
 import useStyles from '../styles/Styles'
 import {IoImages} from 'react-icons/io5'
 import {useState, useContext, useEffect} from 'react'
 import {Button, Card, CardActions, Grid, Input, Typography, Container, Link, Menu, MenuItem, CircularProgress} from '@material-ui/core'
+
+
+
+// Styles
+const ShareImgContainer = styled.div`
+  width:100%;
+  height:100px;
+  display:flex;
+  margin-left:20px;
+  align-items:center;
+  justify-content:flex-start;
+`
+
 
 
 // Main Function
@@ -135,7 +149,7 @@ const Share = () => {
         <Grid className={classes.shareCom}>
             <Card>
                 <form onSubmit={postSubmitHandler} className={classes.postForm}>
-                    <Container className={classes.profileImgContainer}>
+                    <ShareImgContainer>
                         <NextLink href={`/profile/${userInfo?.id}`} passHref>
                             <Link>
                                 <img src={userInfo?.profilePic ? profileImgUrl : '/Images/NoUser.png'} className={classes.leftBarProfilePic}/>
@@ -146,7 +160,7 @@ const Share = () => {
                                 <Typography component='p' style={{color:darkMode ? '#fff' : '#000'}}>{userInfo?.name}</Typography>
                             </Link>
                         </NextLink>
-                    </Container>
+                    </ShareImgContainer>
                     <Input placeholder={`What's on your mind ${userInfo?.name.split(' ')[0]}?`} className={classes.shareInput} value={caption} onChange={e => setCaption(e.target.value)}/>
                     {previewSource && <div className={classes.shareImgContainer}>
                             <img src={previewSource} alt='Selected Image' className={classes.postImg}/>
