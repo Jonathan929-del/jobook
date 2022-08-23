@@ -238,14 +238,11 @@ const useStyles = makeStyles({
         width:'100%',
         position:'relative'
     },
-    postForm:{
-        width:'100%'
-    },
     postInput:{
         height:50,
+        fontSize:13,
         width:'100%',
         paddingLeft:15,
-        fontSize:'0.7rem',
     },
     commentPostButton:{
         top:10,
@@ -272,16 +269,6 @@ const useStyles = makeStyles({
     },
     postContainer:{
         marginTop:10
-    },
-    postDate:{
-        top:45,
-        left:60,
-        fontSize:'0.6rem',
-        position:'absolute',
-        '@media screen and (max-width:400px)':{
-            left:35,
-            fontSize:'0.5rem'
-        }
     },
     /***********************************************************/
 
@@ -407,7 +394,8 @@ const useStyles = makeStyles({
     postForm:{
         width:'100%',
         display:'flex',
-        flexDirection:'column'
+        position:'relative',
+        flexDirection:'column',
     },
     profileImgContainer:{
         height:70,

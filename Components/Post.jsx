@@ -23,16 +23,31 @@ const PostImgContainer = styled.div`
   height:100px;
   display:flex;
   margin-left:10px;
+  position:relative;
   align-items:center;
   justify-content:flex-start;
 `
 const Feeling = styled.span`
-  margin-left:10px;
+  color:#ccc;
   font-size:13px;
+  margin-left:10px;
 
   @media screen and (max-width:400px){
       font-size:11px;
       margin-left:5px;
+  }
+`
+const PostDate = styled.span`
+  top:60px;
+  left:60px;
+  color:#ccc;
+  font-size:11px;
+  position:absolute;
+
+  @media screen and (max-width:400px){
+    top:55px;
+    left:35px;
+    font-size:10px;
   }
 `
 
@@ -163,7 +178,7 @@ const Post = ({post}) => {
                     </Link>
                 </NextLink>
                 {post.mood && <Feeling>is feeling {post.mood}</Feeling>}
-                <Typography component='span' className={classes.postDate}>{moment(post.createdAt).fromNow()}</Typography>
+                <PostDate>{moment(post.createdAt).fromNow()}</PostDate>
             </PostImgContainer>
           {post?.userId === userInfo?.id && <Typography>
             <Button onClick={buttonClickHandler} className={classes.button} aria-controls='menu' aria-haspopup='true'>
