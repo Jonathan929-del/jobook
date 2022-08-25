@@ -28,9 +28,9 @@ const PostImgContainer = styled.div`
   justify-content:flex-start;
 `
 const Feeling = styled.span`
-  color:#ccc;
   font-size:13px;
   margin-left:10px;
+  color:${({darkMode}) => darkMode ? '#ccc' : '#000'};
 
   @media screen and (max-width:400px){
       font-size:11px;
@@ -40,9 +40,9 @@ const Feeling = styled.span`
 const PostDate = styled.span`
   top:60px;
   left:60px;
-  color:#ccc;
   font-size:11px;
   position:absolute;
+  color:${({darkMode}) => darkMode ? '#ccc' : '#000'};
 
   @media screen and (max-width:400px){
     top:55px;
@@ -57,15 +57,15 @@ const PostForm = styled.form`
   flex-direction:column;
 `
 const CommentPostButton = styled.button`
+  top:15px;
   right:20px;
-  top:10px;
   border:none;
   outline:none;
-  color:white;
   cursor:pointer;
   position:absolute;
   transition:0.2s linear;
   background-color:transparent;
+  color:${({darkMode}) => darkMode ? '#fff' : '#000'};
 
   &:hover{
     color:#1877f2;
@@ -189,8 +189,6 @@ const Post = ({post}) => {
     commentsNum();
   }, [isUpdate]);
 
-  // console.log(isLikeClicked);
-
   return (
     <Card className={classes.postContainer} style={{display:isDeleted && 'none'}}>
       {isUpdate && <PostUpdate setIsUpdate={setIsUpdate} post={post}/>}
@@ -209,8 +207,8 @@ const Post = ({post}) => {
                         <Typography component='p' style={{color:darkMode ? '#fff' : '#000'}} className={classes.postUsername}>{post?.user.name}</Typography>
                     </Link>
                 </NextLink>
-                {post.mood && <Feeling>is feeling {post.mood}</Feeling>}
-                <PostDate>{moment(post.createdAt).fromNow()}</PostDate>
+                {post.mood && <Feeling darkMode={darkMode}>is feeling {post.mood}</Feeling>}
+                <PostDate darkMode={darkMode}>{moment(post.createdAt).fromNow()}</PostDate>
             </PostImgContainer>
           {post?.userId === userInfo?.id && <Typography>
             <Button onClick={buttonClickHandler} className={classes.button} aria-controls='menu' aria-haspopup='true'>
@@ -235,7 +233,7 @@ const Post = ({post}) => {
         <Grid item className={classes.postInputContainer}>
           <PostForm onSubmit={commentHandler}>
             <Input style={{fontSize:'11px'}} fullWidth placeholder={`Leave ${post?.user.name.split(' ')[0]} a comment`} className={classes.postInput} value={commentText} onChange={e => commentTextHandler(e.target.value)}/>
-            <CommentPostButton><IoSend /></CommentPostButton>
+            <CommentPostButton darkMode={darkMode}><IoSend /></CommentPostButton>
           </PostForm>
         </Grid>
         <Grid item className={classes.postBottom}>
