@@ -52,9 +52,9 @@ const Nav = ({title, user}) => {
       setAnotherUserProfile(false);
     }
   }, [user?.name]);
-  // window.onresize = () => {
-  //   setWindowWidth(window.innerWidth);
-  // };
+  window.onresize = () => {
+    setWindowWidth(window.innerWidth);
+  };
   
   return (
     <nav>
@@ -118,7 +118,7 @@ const Nav = ({title, user}) => {
                 <Switch onClick={darkModeHandler} checked={darkMode}/>
                 {userInfo ? (
                   <>                  
-                    <Button onClick={buttonClickHandler} className={classes.button} aria-controls='menu' aria-haspopup='true'>
+                    <Button onClick={buttonClickHandler} className={classes.button} aria-controls='menu' aria-haspopup='true' style={{color:'#fff'}}>
                       {userInfo.name.split(' ')[0]}
                     </Button>
                     <Menu id='menu' anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={buttonCloseHandler}>

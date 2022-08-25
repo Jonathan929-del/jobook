@@ -10,7 +10,8 @@ import Layout from '../Components/Layout'
 const Home = () => {
 
   const classes = useStyles();
-  const {userInfo} = useContext(Store);
+  const {state} = useContext(Store);
+  const {userInfo} = state;
 
   return (
     <>    
