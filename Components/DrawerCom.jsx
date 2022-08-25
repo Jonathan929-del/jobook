@@ -63,7 +63,7 @@ const DrawerCom = ({props}) => {
                   </div>
               }
               {props.title === 'Register' && 
-                  <div style={{width:'100%', display:'flex', alignItems:'center', flexDirection:'column'}}>
+                  <div style={{width:'100%', display:'flex', alignItems:'center', justifyContent:'space-evenly'}}>
                     <NextLink href='/' passHref>
                       <Link>
                         <AiFillHome className={classes.icon}/>
@@ -95,7 +95,7 @@ const DrawerCom = ({props}) => {
                   </div>
                   ) : (
                     <NextLink href='/login' passHref>
-                      <Link style={{width:'100%', display:'flex', alignItems:'center', flexDirection:'column', color:'white'}}>
+                      <Link style={{width:'100%', display:'flex', alignItems:'center', flexDirection:'column', color:darkMode ? '#fff' : '#000'}}>
                         Login
                       </Link>
                     </NextLink>
@@ -142,7 +142,7 @@ const DrawerCom = ({props}) => {
                       </NextLink>
                       <NextLink href='/login' passHref>
                         <Link>
-                          <p className={classes.button} style={{marginLeft:'50px'}}>Login</p>
+                          <p className={classes.button} style={{marginLeft:'50px', color:darkMode ? '#fff' : '#000'}}>Login</p>
                         </Link>
                       </NextLink>
                     </div>
@@ -150,9 +150,15 @@ const DrawerCom = ({props}) => {
                 </div>}
             </ListItem>
             <hr />
-            <ListItem style={{overflow:'hidden'}}>
+            {anotherUserProfile && <ListItem>
               <ResponsiveLeftbar />
-            </ListItem>
+            </ListItem>}
+            {props.title === userInfo?.name && <ListItem>
+              <ResponsiveLeftbar />
+            </ListItem>}
+            {props.title === 'Home Page' && <ListItem>
+              <ResponsiveLeftbar />
+            </ListItem>}
           </List>
       </Drawer>
   );
