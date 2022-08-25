@@ -94,7 +94,7 @@ const Login = () => {
   }
   
   return (
-    <div>
+    <div style={{marginTop:'80px'}}>
         <Layout title='Info'>
           <form className={classes.form} onSubmit={handleSubmit(submitHandler)}>
               <Typography component='h1' variant='h1' style={{marginLeft:'15px'}}>Tell us more about you</Typography>
