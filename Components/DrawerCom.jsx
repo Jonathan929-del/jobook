@@ -134,11 +134,18 @@ const DrawerCom = ({props}) => {
                         </NextLink>
                     </>
                   ) : (
-                    <NextLink href='/login' passHref>
-                      <Link>
-                        <p className={classes.button}>Login</p>
-                      </Link>
-                    </NextLink>
+                    <div style={{display:'flex'}}>
+                      <NextLink href='/' passHref>
+                        <Link>
+                          <AiFillHome className={classes.icon} style={{marginLeft:'50px'}}/>
+                        </Link>
+                      </NextLink>
+                      <NextLink href='/login' passHref>
+                        <Link>
+                          <p className={classes.button} style={{marginLeft:'50px'}}>Login</p>
+                        </Link>
+                      </NextLink>
+                    </div>
                   )}
                 </div>}
             </ListItem>

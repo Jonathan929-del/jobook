@@ -203,11 +203,18 @@ const Nav = ({title, user}) => {
                       </NextLink>
                   </>
                 ) : (
-                  <NextLink href='/login' passHref>
-                    <Link>
-                      <p className={classes.button}>Login</p>
-                    </Link>
-                  </NextLink>
+                  <>
+                    <NextLink href='/' passHref>
+                      <Link style={{marginRight:'10px'}}>
+                        <AiFillHome className={classes.icon}/>
+                      </Link>
+                    </NextLink>
+                    <NextLink href='/login' passHref>
+                      <Link>
+                        <p className={classes.button}>Login</p>
+                      </Link>
+                    </NextLink>
+                  </>
                 )}
               </div>
             </Toolbar>}

@@ -1,6 +1,7 @@
 // Imports
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import dynamic from 'next/dynamic'
 import {Store} from '../../Utils/Store'
 import Feed from '../../Components/Feed'
 import useStyles from '../../styles/Styles'
@@ -156,7 +157,7 @@ export const getServerSideProps = async context => {
     const {params} = context;
     const {id} = params;
 
-    await dbConnection();
+    dbConnection();
     const user = await User.findById(id);
     const stringifiedUser = JSON.stringify(user);
     const allPosts = await Post.find();
@@ -165,4 +166,4 @@ export const getServerSideProps = async context => {
 
     return {props:{user:JSON.parse(stringifiedUser), posts:JSON.parse(stringifiedPosts)}};
 }
-export default Profile;
+export default dynamic(() => Promise.resolve(Profile), {ssr:false});
