@@ -54,16 +54,139 @@ const Nav = ({title, user}) => {
   }, [user?.name]);
   
   return (
-    <nav>
-        <AppBar className={classes.navbar}>
-            {windowWidth > 600 && title === 'Register' && <Toolbar className={classes.spaceBetween}>
-              <NextLink href='/' passHref>
-                <Link>
-                  <Typography className={classes.brand}>JoBook</Typography>
-                </Link>
-              </NextLink>
-              <div className={classes.navContainer}>
-                <Switch onClick={darkModeHandler} checked={darkMode}/>
+    <nav className={classes.navbar}>
+      {windowWidth > 600 && title === 'Register' && <Toolbar className={classes.spaceBetween}>
+        <NextLink href='/' passHref>
+          <Link>
+            <Typography className={classes.brand}>JoBook</Typography>
+          </Link>
+        </NextLink>
+        <div className={classes.navContainer}>
+          <Switch onClick={darkModeHandler} checked={darkMode}/>
+          <NextLink href='/' passHref>
+            <Link>
+              <AiFillHome className={classes.icon}/>
+            </Link>
+          </NextLink>
+          <NextLink href='/login' passHref>
+            <Link>
+              <p className={classes.button}>Login</p>
+            </Link>
+          </NextLink>
+        </div>
+      </Toolbar>}
+      {windowWidth > 600 && title === 'Login' && <Toolbar className={classes.spaceBetween}>
+        <NextLink href='/' passHref>
+          <Link>
+            <Typography className={classes.brand}>JoBook</Typography>
+          </Link>
+        </NextLink>
+        <div className={classes.navContainer}>
+          <Switch onClick={darkModeHandler} checked={darkMode}/>
+          <NextLink href='/' passHref>
+            <Link>
+              <AiFillHome className={classes.icon}/>
+            </Link>
+          </NextLink>
+          <NextLink href='/register' passHref>
+            <Link>
+              <p className={classes.button}>Register</p>
+            </Link>
+          </NextLink>
+        </div>
+      </Toolbar>}
+      {windowWidth > 600 && title === 'Info' && <Toolbar className={classes.spaceBetween}>
+        <NextLink href='/' passHref>
+          <Link>
+            <Typography className={classes.brand}>JoBook</Typography>
+          </Link>
+        </NextLink>
+        <Switch onClick={darkModeHandler} checked={darkMode}/>
+      </Toolbar>}
+      {windowWidth > 600 && title === 'Home Page' && <Toolbar className={classes.spaceBetween}>
+        <NextLink href='/' passHref>
+          <Link>
+            <Typography className={classes.brand}>JoBook</Typography>
+          </Link>
+        </NextLink>
+        <input className={classes.navInput} placeholder='Search Friends'/>
+        <div className={classes.navContainer}>
+          <Switch onClick={darkModeHandler} checked={darkMode}/>
+          {userInfo ? (
+            <>                  
+              <Button onClick={buttonClickHandler} className={classes.button} aria-controls='menu' aria-haspopup='true' style={{color:'#fff'}}>
+                {userInfo.name.split(' ')[0]}
+              </Button>
+              <Menu id='menu' anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={buttonCloseHandler}>
+                <MenuItem onClick={buttonCloseHandler}>
+                  <NextLink href={`/profile/${userInfo?.id}`} passHref>
+                    <Link>
+                      Profile
+                    </Link>
+                  </NextLink>
+                </MenuItem>
+                <MenuItem>
+                  <NextLink href='/login' passHref>
+                    <Link onClick={logoutHandler}>
+                      Logout
+                    </Link>
+                  </NextLink>
+                </MenuItem>
+              </Menu>
+            </>
+          ) : (
+            <NextLink href='/login' passHref>
+              <Link>
+                <p className={classes.button}>Login</p>
+              </Link>
+            </NextLink>
+          )}
+        </div>
+      </Toolbar>}
+      {windowWidth > 600 && title === userInfo?.name && <Toolbar className={classes.spaceBetween}>
+        <NextLink href='/' passHref>
+          <Link>
+            <Typography className={classes.brand}>JoBook</Typography>
+          </Link>
+        </NextLink>
+        <input className={classes.navInput} placeholder='Search Friends'/>
+        <div className={classes.navContainer}>
+          <Switch onClick={darkModeHandler} checked={darkMode}/>
+          {userInfo ? (
+            <>                  
+                <NextLink href='/' passHref>
+                  <Link>
+                    <AiFillHome className={classes.icon}/>
+                  </Link>
+                </NextLink>
+                <MenuItem>
+                  <NextLink href='/login' passHref>
+                    <Link onClick={logoutHandler}>
+                      Logout
+                    </Link>
+                  </NextLink>
+                </MenuItem>
+            </>
+          ) : (
+            <NextLink href='/login' passHref>
+              <Link>
+                <p className={classes.button}>Login</p>
+              </Link>
+            </NextLink>
+          )}
+        </div>
+      </Toolbar>}
+      {windowWidth > 600 && anotherUserProfile && <Toolbar className={classes.spaceBetween}>
+        <NextLink href='/' passHref>
+          <Link>
+            <Typography className={classes.brand}>JoBook</Typography>
+          </Link>
+        </NextLink>
+        <input className={classes.navInput} placeholder='Search Friends'/>
+        <div className={classes.navContainer}>
+          <Switch onClick={darkModeHandler} checked={darkMode}/>
+          {userInfo ? (
+            <>                  
                 <NextLink href='/' passHref>
                   <Link>
                     <AiFillHome className={classes.icon}/>
@@ -71,163 +194,38 @@ const Nav = ({title, user}) => {
                 </NextLink>
                 <NextLink href='/login' passHref>
                   <Link>
-                    <p className={classes.button}>Login</p>
+                    <p className={classes.button} onClick={logoutHandler}>Logout</p>
                   </Link>
                 </NextLink>
-              </div>
-            </Toolbar>}
-            {windowWidth > 600 && title === 'Login' && <Toolbar className={classes.spaceBetween}>
+            </>
+          ) : (
+            <>
               <NextLink href='/' passHref>
-                <Link>
-                  <Typography className={classes.brand}>JoBook</Typography>
+                <Link style={{marginRight:'10px'}}>
+                  <AiFillHome className={classes.icon}/>
                 </Link>
               </NextLink>
-              <div className={classes.navContainer}>
-                <Switch onClick={darkModeHandler} checked={darkMode}/>
-                <NextLink href='/' passHref>
-                  <Link>
-                    <AiFillHome className={classes.icon}/>
-                  </Link>
-                </NextLink>
-                <NextLink href='/register' passHref>
-                  <Link>
-                    <p className={classes.button}>Register</p>
-                  </Link>
-                </NextLink>
-              </div>
-            </Toolbar>}
-            {windowWidth > 600 && title === 'Info' && <Toolbar className={classes.spaceBetween}>
-              <NextLink href='/' passHref>
+              <NextLink href='/login' passHref>
                 <Link>
-                  <Typography className={classes.brand}>JoBook</Typography>
+                  <p className={classes.button}>Login</p>
                 </Link>
               </NextLink>
-              <Switch onClick={darkModeHandler} checked={darkMode}/>
-            </Toolbar>}
-            {windowWidth > 600 && title === 'Home Page' && <Toolbar className={classes.spaceBetween}>
-              <NextLink href='/' passHref>
-                <Link>
-                  <Typography className={classes.brand}>JoBook</Typography>
-                </Link>
-              </NextLink>
-              <input className={classes.navInput} placeholder='Search Friends'/>
-              <div className={classes.navContainer}>
-                <Switch onClick={darkModeHandler} checked={darkMode}/>
-                {userInfo ? (
-                  <>                  
-                    <Button onClick={buttonClickHandler} className={classes.button} aria-controls='menu' aria-haspopup='true' style={{color:'#fff'}}>
-                      {userInfo.name.split(' ')[0]}
-                    </Button>
-                    <Menu id='menu' anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={buttonCloseHandler}>
-                      <MenuItem onClick={buttonCloseHandler}>
-                        <NextLink href={`/profile/${userInfo?.id}`} passHref>
-                          <Link>
-                            Profile
-                          </Link>
-                        </NextLink>
-                      </MenuItem>
-                      <MenuItem>
-                        <NextLink href='/login' passHref>
-                          <Link onClick={logoutHandler}>
-                            Logout
-                          </Link>
-                        </NextLink>
-                      </MenuItem>
-                    </Menu>
-                  </>
-                ) : (
-                  <NextLink href='/login' passHref>
-                    <Link>
-                      <p className={classes.button}>Login</p>
-                    </Link>
-                  </NextLink>
-                )}
-              </div>
-            </Toolbar>}
-            {windowWidth > 600 && title === userInfo?.name && <Toolbar className={classes.spaceBetween}>
-              <NextLink href='/' passHref>
-                <Link>
-                  <Typography className={classes.brand}>JoBook</Typography>
-                </Link>
-              </NextLink>
-              <input className={classes.navInput} placeholder='Search Friends'/>
-              <div className={classes.navContainer}>
-                <Switch onClick={darkModeHandler} checked={darkMode}/>
-                {userInfo ? (
-                  <>                  
-                      <NextLink href='/' passHref>
-                        <Link>
-                          <AiFillHome className={classes.icon}/>
-                        </Link>
-                      </NextLink>
-                      <MenuItem>
-                        <NextLink href='/login' passHref>
-                          <Link onClick={logoutHandler}>
-                            Logout
-                          </Link>
-                        </NextLink>
-                      </MenuItem>
-                  </>
-                ) : (
-                  <NextLink href='/login' passHref>
-                    <Link>
-                      <p className={classes.button}>Login</p>
-                    </Link>
-                  </NextLink>
-                )}
-              </div>
-            </Toolbar>}
-            {windowWidth > 600 && anotherUserProfile && <Toolbar className={classes.spaceBetween}>
-              <NextLink href='/' passHref>
-                <Link>
-                  <Typography className={classes.brand}>JoBook</Typography>
-                </Link>
-              </NextLink>
-              <input className={classes.navInput} placeholder='Search Friends'/>
-              <div className={classes.navContainer}>
-                <Switch onClick={darkModeHandler} checked={darkMode}/>
-                {userInfo ? (
-                  <>                  
-                      <NextLink href='/' passHref>
-                        <Link>
-                          <AiFillHome className={classes.icon}/>
-                        </Link>
-                      </NextLink>
-                      <NextLink href='/login' passHref>
-                        <Link>
-                          <p className={classes.button} onClick={logoutHandler}>Logout</p>
-                        </Link>
-                      </NextLink>
-                  </>
-                ) : (
-                  <>
-                    <NextLink href='/' passHref>
-                      <Link style={{marginRight:'10px'}}>
-                        <AiFillHome className={classes.icon}/>
-                      </Link>
-                    </NextLink>
-                    <NextLink href='/login' passHref>
-                      <Link>
-                        <p className={classes.button}>Login</p>
-                      </Link>
-                    </NextLink>
-                  </>
-                )}
-              </div>
-            </Toolbar>}
-            {windowWidth < 600 && <Toolbar className={classes.responsiveToolbar}>
-              <NextLink href='/' passHref>
-                <Link>
-                  <Typography className={classes.brand}>JoBook</Typography>
-                </Link>
-              </NextLink>
-              {title === 'Home Page' && <input className={classes.navInput} placeholder='Search Friends'/>}
-              {title === userInfo?.name && <input className={classes.navInput} placeholder='Search Friends'/>}
-              {anotherUserProfile && <input className={classes.navInput} placeholder='Search Friends'/>}
-              <Button onClick={toggleDrawer(true)} style={{color:'white'}}><AiOutlineMenu className={classes.menu}/></Button>
-              <DrawerCom props={{darkModeHandler, logoutHandler, buttonCloseHandler, buttonClickHandler, title, anchorEl, setAnchorEl, user, openState, toggleDrawer}} />
-            </Toolbar>}
-        </AppBar>
+            </>
+          )}
+        </div>
+      </Toolbar>}
+      {windowWidth < 600 && <Toolbar className={classes.responsiveToolbar}>
+        <NextLink href='/' passHref>
+          <Link>
+            <Typography className={classes.brand}>JoBook</Typography>
+          </Link>
+        </NextLink>
+        {title === 'Home Page' && <input className={classes.navInput} placeholder='Search Friends'/>}
+        {title === userInfo?.name && <input className={classes.navInput} placeholder='Search Friends'/>}
+        {anotherUserProfile && <input className={classes.navInput} placeholder='Search Friends'/>}
+        <Button onClick={toggleDrawer(true)} style={{color:'white'}}><AiOutlineMenu className={classes.menu}/></Button>
+        <DrawerCom props={{darkModeHandler, logoutHandler, buttonCloseHandler, buttonClickHandler, title, anchorEl, setAnchorEl, user, openState, toggleDrawer}} />
+      </Toolbar>}
     </nav>
   )
 }

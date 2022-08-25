@@ -95,7 +95,7 @@ const DrawerCom = ({props}) => {
                   </div>
                   ) : (
                     <NextLink href='/login' passHref>
-                      <Link style={{width:'100%', display:'flex', alignItems:'center', flexDirection:'column', color:'white', backgroundColor:'red'}}>
+                      <Link style={{width:'100%', display:'flex', alignItems:'center', flexDirection:'column', color:'white'}}>
                         Login
                       </Link>
                     </NextLink>
@@ -137,7 +137,7 @@ const DrawerCom = ({props}) => {
                     <div style={{display:'flex'}}>
                       <NextLink href='/' passHref>
                         <Link>
-                          <AiFillHome className={classes.icon} style={{marginLeft:'50px'}}/>
+                          <AiFillHome className={classes.icon} style={{marginLeft:'50px', color:darkMode ? '#fff' : '#000'}}/>
                         </Link>
                       </NextLink>
                       <NextLink href='/login' passHref>

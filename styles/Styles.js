@@ -7,8 +7,11 @@ const useStyles = makeStyles({
 
     // Navbar
     navbar:{
+        zIndex:10,
+        width:'100%',
         position:'fixed',
         backgroundColor:'#1877f2',
+
         '& a':{
             color:'#fff',
             fontSize:15
@@ -66,8 +69,8 @@ const useStyles = makeStyles({
         justifyContent:'center'
     },
     icon:{
-        color:'#fff',
         fontSize:30,
+
         '@media screen and (max-width:600px)':{
             fontSize:25
         }
@@ -259,18 +262,6 @@ const useStyles = makeStyles({
     /***********************************************************/
 
     // Post update
-    postUpdateContainer:{
-        top:0,
-        left:0,
-        zIndex:2,
-        width:'100%',
-        height:'100%',
-        display:'flex',
-        position:'fixed',
-        alignItems:'center',
-        justifyContent:'center',
-        backgroundColor:'#00000073'
-    },
     postUpdateCard:{
         width:'60%',
         maxWidth:800,
@@ -296,15 +287,6 @@ const useStyles = makeStyles({
         position:'relative',
         borderBottom:'1px solid #ccc'
     },
-    postUpdateClose:{
-        top:20,
-        right:0,
-        position:'absolute',
-
-        '@media screen and (max-width:400px)':{
-            top:15
-        }
-    },
     postUpdateImgContainer:{
         paddingBottom:10,
         position:'relative',
@@ -312,11 +294,6 @@ const useStyles = makeStyles({
     },
     postUpdateImg:{
         width:'100%'
-    },
-    postUpdateImgClose:{
-        top:10,
-        right:10,
-        position:'absolute'
     },
     postUpdateText:{
         width:'100%',

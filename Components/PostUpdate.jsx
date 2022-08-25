@@ -1,10 +1,58 @@
 // Imports
 import axios from 'axios'
-import dynamic from 'next/dynamic'
 import {Store} from '../Utils/Store'
+import styled from 'styled-components'
 import useStyles from '../styles/Styles'
 import {useContext, useEffect, useState} from 'react'
 import {Card, Grid, Typography, Button, Input, Container, Menu, MenuItem} from '@material-ui/core'
+
+
+
+// Styles
+const PostUpdateContainer = styled.div`
+        top:0;
+        left:0;
+        z-index:110;
+        width:100%;
+        height:100vh;
+        display:flex;
+        position:fixed;
+        align-items:center;
+        justify-content:center;
+        background-color:#00000073;
+`
+const PostUpdateClose = styled.span`
+    top:20px;
+    right:20px;
+    cursor:pointer;
+    position:absolute;
+    transition:0.2s linear;
+
+    &:hover{
+        color:#1877f2;
+    }
+
+    @media screen and (max-width:400px){
+        top:15;
+    }
+`
+const PostUpdateImgClose = styled.span`
+    top:20px;
+    right:20px;
+    font-size:25px;
+    cursor:pointer;
+    position:absolute;
+    transition:0.2s linear;
+
+    &:hover{
+        color:#1877f2;
+    }
+
+    @media screen and (max-width:400px){
+        top:15;
+    }
+`
+
 
 
 // Main Function
@@ -104,12 +152,12 @@ const PostUpdate = ({post, setIsUpdate}) => {
 
     
     return (
-        <div className={classes.postUpdateContainer}>
+        <PostUpdateContainer>
             <Card className={classes.postUpdateCard}>
                 <Grid container className={classes.postUpdateGrid}>
                     <Grid item className={classes.postUpdateHeading}>
                         <Typography variant='h2' component='h2'>Update Post</Typography>
-                        <Button className={classes.postUpdateClose} onClick={closeHandler}>X</Button>
+                        <PostUpdateClose onClick={closeHandler}>X</PostUpdateClose>
                     </Grid>
                     <Grid item className={classes.postUpdateText}>
                         <Input value={inputText} onChange={e => inputTextHandler(e.target.value)} placeholder='Update text' fullWidth/>
@@ -118,12 +166,12 @@ const PostUpdate = ({post, setIsUpdate}) => {
                         ? ''
                         : previewSource
                             ? <Grid item className={classes.postUpdateImgContainer}>
-                                <Button className={classes.postUpdateImgClose} onClick={imgCloser}>x</Button>
+                                <PostUpdateImgClose onClick={imgCloser}>x</PostUpdateImgClose>
                                 <img src={previewSource} className={classes.postUpdateImg}/>
                             </Grid>
                             : post?.img
                                 ? <Grid item className={classes.postUpdateImgContainer}>
-                                        <Button className={classes.postUpdateImgClose} onClick={imgCloser}>x</Button>
+                                        <PostUpdateImgClose onClick={imgCloser}>x</PostUpdateImgClose>
                                         <img src={postImg} className={classes.postUpdateImg}/>
                                     </Grid>
                                 : ''
@@ -154,7 +202,7 @@ const PostUpdate = ({post, setIsUpdate}) => {
                     </Grid>
                 </Grid>
             </Card>
-        </div>
+        </PostUpdateContainer>
     )
 }
 
