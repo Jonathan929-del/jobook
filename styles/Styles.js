@@ -233,7 +233,6 @@ const useStyles = makeStyles({
     },
     postInput:{
         height:50,
-        fontSize:11,
         width:'100%',
         paddingLeft:15,
     },
@@ -369,10 +368,9 @@ const useStyles = makeStyles({
         marginBottom:50
     },
     shareInput:{
-        padding:'30px 0',
-        fontSize:12,
         width:'100%',
         paddingLeft:30,
+        padding:'30px 0',
 
         '@media screen and (max-width:400px)':{
             height:70,
@@ -558,17 +556,6 @@ const useStyles = makeStyles({
     // Likes List
     likesListBox:{
         width:'100%'
-    },
-    likesListHeading:{
-        fontSize:25,
-        margin:'20px 100px',
-        '@media screen and (max-width:600px)':{
-            margin:'20px 50px'       
-        },
-        '@media screen and (max-width:400px)':{
-            margin:'20px 0',
-            textAlign:'center'
-        }
     },
     /************************************************/
 

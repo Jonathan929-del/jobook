@@ -161,7 +161,7 @@ const Share = () => {
                             </Link>
                         </NextLink>
                     </ShareImgContainer>
-                    <Input placeholder={`What's on your mind ${userInfo?.name.split(' ')[0]}?`} className={classes.shareInput} value={caption} onChange={e => setCaption(e.target.value)}/>
+                    <Input style={{fontSize:'13px'}} placeholder={`What's on your mind ${userInfo?.name.split(' ')[0]}?`} className={classes.shareInput} value={caption} onChange={e => setCaption(e.target.value)}/>
                     {previewSource && <div className={classes.shareImgContainer}>
                             <img src={previewSource} alt='Selected Image' className={classes.postImg}/>
                             <Button className={classes.imgCloseButton} onClick={closeImgHandler}>X</Button>

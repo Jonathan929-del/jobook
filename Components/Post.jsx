@@ -73,6 +73,7 @@ const CommentPostButton = styled.button`
 `
 const PostCaption = styled.p`
   margin-left:30px;
+  margin-bottom:20px;
 
   @media screen and (max-width:400px){
     font-size:15px;
@@ -124,9 +125,9 @@ const Post = ({post}) => {
 
   // Like handler
   const likeHandler = async () => {
+    setIsLikeClicked(!isLikeClicked);
     try {
       const {data} = await axios.put(`/api/posts/like/${post?._id}`, {userId:userInfo?.id}, {headers:{authorization:`Bearer ${userInfo?.token}`}});
-      setIsLikeClicked(!isLikeClicked);
       data.likes.includes(userInfo?.id) ? setLikeCount(likeCount + 1) : setLikeCount(likeCount - 1);
     } catch (err) {
       console.log(err);
@@ -186,7 +187,9 @@ const Post = ({post}) => {
       setCommentCount(data.length);
     }
     commentsNum();
-  }, [isUpdate, commentHandler]);
+  }, [isUpdate]);
+
+  // console.log(isLikeClicked);
 
   return (
     <Card className={classes.postContainer} style={{display:isDeleted && 'none'}}>
@@ -231,7 +234,7 @@ const Post = ({post}) => {
         </Grid>}
         <Grid item className={classes.postInputContainer}>
           <PostForm onSubmit={commentHandler}>
-            <Input fullWidth placeholder={`Leave ${post?.user.name.split(' ')[0]} a comment`} className={classes.postInput} value={commentText} onChange={e => commentTextHandler(e.target.value)}/>
+            <Input style={{fontSize:'11px'}} fullWidth placeholder={`Leave ${post?.user.name.split(' ')[0]} a comment`} className={classes.postInput} value={commentText} onChange={e => commentTextHandler(e.target.value)}/>
             <CommentPostButton><IoSend /></CommentPostButton>
           </PostForm>
         </Grid>

@@ -18,6 +18,18 @@ const LeftbarImgContainer = styled.div`
   align-items:center;
   justify-content:flex-start;
 `
+const CommentsListHeading = styled.h2`
+  font-size:25px;
+  margin:20px 100px;
+
+  @media screen and (max-width:600px){
+      margin:20px 50px; 
+  }
+  @media screen and (max-width:400px){
+      margin:20px 0;
+      text-align:center;
+  }
+`
 
 
 // Main Function
@@ -46,10 +58,10 @@ const Commentslist = ({isCommentsOpened, post, commentsToggler, commentHandler})
     <aside>
       <Drawer anchor='right' open={isCommentsOpened} onClose={commentsToggler(false)}>
         <Box role="presentation" className={classes.likesListBox} fullWidth>
-          <Typography component='h4' className={classes.likesListHeading}>{post?.user.name.split(' ')[0]}'s post</Typography>
+          <CommentsListHeading>{post?.user.name.split(' ')[0]}'s post</CommentsListHeading>
           <span onClick={commentsToggler(false)} style={{position:'absolute', top:25, left:20, fontSize:'20px', cursor:'pointer'}}>X</span>
           <List fullWidth>
-            {comments.map(comment => (
+            {comments.length > 0 ? comments.map(comment => (
               <ListItem fullWidth>
                 <Card fullWidth style={{width:'100%'}}>
                   <LeftbarImgContainer>
@@ -67,7 +79,7 @@ const Commentslist = ({isCommentsOpened, post, commentsToggler, commentHandler})
                   <Typography className={classes.comment}>{comment.comment}</Typography>
                 </Card>
               </ListItem>
-            ))}
+            )) : <p style={{textAlign:'center'}}>This post has no comments</p>}
           </List>
         </Box>
       </Drawer>

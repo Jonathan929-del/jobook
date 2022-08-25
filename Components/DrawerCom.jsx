@@ -1,12 +1,27 @@
 // Imports
-import Leftbar from './Leftbar'
 import NextLink from 'next/link'
 import {Store} from '../Utils/Store'
+import styled from 'styled-components'
 import useStyles from '../styles/Styles'
-import {useState, useContext, useEffect} from 'react'
-import {AiOutlineMenu, AiFillHome} from 'react-icons/ai'
-import {List, ListItem, Switch, Box, Drawer, Button, Link, MenuItem} from '@material-ui/core'
+import {AiFillHome} from 'react-icons/ai'
 import ResponsiveLeftbar from './ResponsiveLeftbar'
+import {useState, useContext, useEffect} from 'react'
+import {List, ListItem, Switch, Box, Drawer, Button, Link, MenuItem} from '@material-ui/core'
+
+
+
+// Styles
+const CloseIcon = styled.span`
+  cursor:pointer;
+  font-size:25px;
+  margin-left:50px;
+  transition:0.2s linear;
+
+  &:hover{
+    color:#1877f2;
+  }
+`
+
 
 
 // Main Function
@@ -30,6 +45,7 @@ const DrawerCom = ({props}) => {
           <List>
             <ListItem style={{width:'100%', display:'flex', justifyContent:'center'}}>
               <Switch onClick={props.darkModeHandler} checked={darkMode}/>
+              <CloseIcon onClick={props.toggleDrawer(false)}>x</CloseIcon>
             </ListItem>
             <ListItem>
               {props.title === 'Login' && 
@@ -127,7 +143,7 @@ const DrawerCom = ({props}) => {
                 </div>}
             </ListItem>
             <hr />
-            <ListItem style={{overflowY:'hidden'}}>
+            <ListItem style={{overflow:'hidden'}}>
               <ResponsiveLeftbar />
             </ListItem>
           </List>

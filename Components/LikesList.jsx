@@ -18,6 +18,18 @@ const LeftbarImgContainer = styled.div`
   align-items:center;
   justify-content:flex-start;
 `
+const LikesListHeading = styled.h2`
+  font-size:25px;
+  margin:20px 100px;
+
+  @media screen and (max-width:600px){
+      margin:20px 50px; 
+  }
+  @media screen and (max-width:400px){
+      margin:20px 0;
+      text-align:center;
+  }
+`
 
 
 
@@ -45,10 +57,10 @@ const Likeslist = ({isLikesOpened, post, likesToggler, isLikeClicked}) => {
     <aside>
       <Drawer anchor='right' open={isLikesOpened} onClose={likesToggler(false)}>
         <Box role="presentation" className={classes.likesListBox}>
-          <Typography component='h4' className={classes.likesListHeading}>{post?.user.name.split(' ')[0]}'s post</Typography>
+          <LikesListHeading>{post?.user.name.split(' ')[0]}'s post</LikesListHeading>
           <span style={{position:'absolute', top:25, left:20, fontSize:'20px', cursor:'pointer'}} onClick={likesToggler(false)}>X</span>
           <List>
-            {users.map(user => (
+            {users.length > 0 ? users.map(user => (
               <ListItem>
                 <LeftbarImgContainer>
                     <NextLink href={`/profile/${user?._id}`} passHref>
@@ -63,7 +75,7 @@ const Likeslist = ({isLikesOpened, post, likesToggler, isLikeClicked}) => {
                     </NextLink>
                 </LeftbarImgContainer>
             </ListItem>
-            ))}
+            )) : <p style={{textAlign:'center'}}>This post has no likes.</p>}
           </List>
         </Box>
       </Drawer>
