@@ -41,7 +41,7 @@ const Share = () => {
     const [previewSource, setPreviewSource] = useState('');
     const [fileInputState, setFileInputState] = useState('');
     const postId = Math.floor(Math.random() * 1000000000);
-    const profileImgUrl = `https://res.cloudinary.com/jobook/image/upload/v1657393815/jobook/profilePic-${userInfo?.id}`;
+    const profileImgUrl = `https://res.cloudinary.com/jobook/image/upload/v1661539090/jobook/profilePic-${userInfo?.id}`;
 
     // Image Handlers
     const handleFileInputChange = e => {
