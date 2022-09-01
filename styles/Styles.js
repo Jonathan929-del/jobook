@@ -519,15 +519,6 @@ const useStyles = makeStyles({
         textAlign:'center',
         margin:'20px 0 10px 0',
     },
-    followButton:{
-        color:'#fff',
-        margin:'auto',
-        backgroundColor:'#1877f2',
-
-        '&:hover':{
-            color:'#1877f2'
-        }
-    },
     /*************************************************/
 
     // Likes List

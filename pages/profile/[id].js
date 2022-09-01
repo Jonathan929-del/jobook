@@ -2,6 +2,7 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import dynamic from 'next/dynamic'
+import styled from 'styled-components'
 import {Store} from '../../Utils/Store'
 import Feed from '../../Components/Feed'
 import useStyles from '../../styles/Styles'
@@ -11,6 +12,19 @@ import Layout from '../../Components/Layout'
 import dbConnection from '../../Server/DBConnnect'
 import {useContext, useEffect, useState} from 'react'
 import {Box, Container, Typography, Button, Image} from '@material-ui/core'
+
+
+
+// Styles
+const FollowButton = styled.button`
+    color:#fff;
+    margin:50px auto;
+    background-color:#1877f2;
+
+    &:hover{
+        color:#1877f2
+    }
+`
 
 
 // Main Function
@@ -141,7 +155,7 @@ const Profile = ({user, posts}) => {
                             {user.bio}
                         </Container>
                     }
-                    {userInfo && user && user?._id !== userInfo?.id && <Button className={classes.followButton} onClick={followHandler}>{isFollowed ? 'Unfollow' : 'Follow'}</Button>}
+                    {userInfo && user && user?._id !== userInfo?.id && <FollowButton onClick={followHandler}>{isFollowed ? 'Unfollow' : 'Follow'}</FollowButton>}
                 </Container>
             </Box>
             <div className={classes.profileFeedContainer}>
