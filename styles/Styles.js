@@ -504,11 +504,12 @@ const useStyles = makeStyles({
         }
     },
     profileTextContainer:{
+        width:'100%',
+        marginTop:-30,
         display:'flex',
         alignItems:'center',
         flexDirection:'column',
-        justifyContent:'center',
-        marginTop:-30
+        justifyContent:'center'
     },
     profileImgTextContainer:{
         display:'flex',
