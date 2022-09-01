@@ -470,9 +470,10 @@ const useStyles = makeStyles({
 
     // Profile
     backgroundPicCom:{
-        height:350,
+        height:400,
         width:'100%',
         overflow:'hidden',
+        textAlign:'center',
         padding:'66px 0 0 251px',
         '@media screen and (max-width:600px)':{
             padding:'58px 0'

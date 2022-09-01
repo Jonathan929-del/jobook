@@ -11,18 +11,25 @@ import Post from '../../Server/Models/Post'
 import Layout from '../../Components/Layout'
 import dbConnection from '../../Server/DBConnnect'
 import {useContext, useEffect, useState} from 'react'
-import {Box, Container, Typography, Button, Image} from '@material-ui/core'
+import {Box, Container, Typography, Button} from '@material-ui/core'
 
 
 
 // Styles
 const FollowButton = styled.button`
     color:#fff;
-    margin:50px auto;
+    border:none;
+    outline:none;
+    cursor:pointer;
+    margin:20px auto;
+    padding:5px 15px;
+    border-radius:5px;
+    transition:0.2s linear;
     background-color:#1877f2;
 
     &:hover{
-        color:#1877f2
+        color:#1877f2;
+        background-color:${({darkMode}) => darkMode ? '#fff' : '#CCC'};
     }
 `
 
@@ -155,8 +162,8 @@ const Profile = ({user, posts}) => {
                             {user.bio}
                         </Container>
                     }
-                    {userInfo && user && user?._id !== userInfo?.id && <FollowButton onClick={followHandler}>{isFollowed ? 'Unfollow' : 'Follow'}</FollowButton>}
                 </Container>
+                {userInfo && user && user?._id !== userInfo?.id && <FollowButton onClick={followHandler} darkMode={darkMode}>{isFollowed ? 'Unfollow' : 'Follow'}</FollowButton>}
             </Box>
             <div className={classes.profileFeedContainer}>
                 <Feed posts={arrangedPosts} user={user}/>
