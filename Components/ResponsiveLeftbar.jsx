@@ -31,7 +31,7 @@ const ResponsiveLeftbar = () => {
     const [followers, setFollowers] = useState([]);
     const [followings, setFollowings] = useState([]);
     const [value, setValue] = useState(0);
-    const imgUrl = `https://res.cloudinary.com/jobook/image/upload/v1656746051/jobook/profilePic-${userInfo?.id}`;
+    const [profileImage, setProfileImage] = useState({});
 
 
     const usersFetcher = async () => {
@@ -47,6 +47,15 @@ const ResponsiveLeftbar = () => {
         }
     }
     useEffect(() => {
+        const ImagesFetcher = async () => {
+            try {
+              const res = await axios.get('/api/images/fetch');
+              setProfileImage(res.data.resources.filter(img => img.filename.split('-')[1] === userInfo?.id)[0].url);
+            } catch (err) {
+              console.log(err);
+            }
+        }
+        ImagesFetcher();
         usersFetcher();
     }, [value, userInfo?.followers, userInfo?.following]);
 
@@ -55,7 +64,7 @@ const ResponsiveLeftbar = () => {
             {userInfo && <LeftbarImgContainer>
                 <NextLink href={`/profile/${userInfo.id}`} passHref>
                     <Link>
-                        <img src={userInfo?.profilePic ? imgUrl : '/Images/NoUser.png'} className={classes.leftBarProfilePic}/>
+                        <img src={userInfo?.profilePic ? profileImage : '/Images/NoUser.png'} className={classes.leftBarProfilePic}/>
                     </Link>    
                 </NextLink>
                 <NextLink href={`/profile/${userInfo.id}`} passHref>

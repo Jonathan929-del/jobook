@@ -100,7 +100,7 @@ const Post = ({post}) => {
   const [likeCount, setLikeCount] = useState(post.likes.length);
   const [isCommentsOpened, setIsCommentsOpened] = useState(false);
   const img = `https://res.cloudinary.com/jobook/image/upload/v1656754040/jobook/${post.img}`;
-  const profileImgUrl = `https://res.cloudinary.com/jobook/image/upload/v1657393815/jobook/${post.user.profilePic}`;
+  const [profileImage, setProfileImage] = useState({});
 
 
   // Post delete handler
@@ -186,6 +186,15 @@ const Post = ({post}) => {
       const {data} = await axios.get(`/api/comments/${post._id}`);
       setCommentCount(data.length);
     }
+    const ImagesFetcher = async () => {
+      try {
+        const res = await axios.get('/api/images/fetch');
+        setProfileImage(res.data.resources.filter(img => img.filename.split('-')[1] === post.userId)[0].url);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    ImagesFetcher();
     commentsNum();
   }, [isUpdate]);
 
@@ -199,7 +208,7 @@ const Post = ({post}) => {
             <PostImgContainer>
                 <NextLink href={`/profile/${post.userId}`} passHref>
                     <Link>
-                        <img src={post?.user?.profilePic ? profileImgUrl : '/Images/NoUser.png'} className={classes.postProfilePic}/>
+                        <img src={post?.user?.profilePic ? profileImage : '/Images/NoUser.png'} className={classes.postProfilePic}/>
                     </Link>    
                 </NextLink>
                 <NextLink href={`/profile/${post.userId}`} passHref>

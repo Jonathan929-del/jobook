@@ -41,7 +41,7 @@ const Share = () => {
     const [previewSource, setPreviewSource] = useState('');
     const [fileInputState, setFileInputState] = useState('');
     const postId = Math.floor(Math.random() * 1000000000);
-    const profileImgUrl = `https://res.cloudinary.com/jobook/image/upload/v1661539090/jobook/profilePic-${userInfo?.id}`;
+    const [profileImage, setProfileImage] = useState({});
 
     // Image Handlers
     const handleFileInputChange = e => {
@@ -143,7 +143,17 @@ const Share = () => {
         setSelectedFile('');
         setMood('');
         setCaption('');
+        const ImagesFetcher = async () => {
+            try {
+              const res = await axios.get('/api/images/fetch');
+              setProfileImage(res.data.resources.filter(img => img.filename.split('-')[1] === userInfo?.id)[0].url);
+            } catch (err) {
+              console.log(err);
+            }
+          }
+          ImagesFetcher();
     }, []);
+
      
     return (
         <Grid className={classes.shareCom}>
@@ -152,7 +162,7 @@ const Share = () => {
                     <ShareImgContainer>
                         <NextLink href={`/profile/${userInfo?.id}`} passHref>
                             <Link>
-                                <img src={userInfo?.profilePic ? profileImgUrl : '/Images/NoUser.png'} className={classes.leftBarProfilePic}/>
+                                <img src={userInfo?.profilePic ? profileImage : '/Images/NoUser.png'} className={classes.leftBarProfilePic}/>
                             </Link>    
                         </NextLink>
                         <NextLink href={`/profile/${userInfo?.id}`} passHref>

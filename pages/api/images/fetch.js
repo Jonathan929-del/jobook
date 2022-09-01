@@ -7,13 +7,12 @@ import cloudinaryV from '../../../Utils/Cloudinary'
 const handler = nc();
 handler.get(async (req, res) => {
     try {
-        const {resources} = await cloudinaryV.search
+        const images = await cloudinaryV.search
             .expression('folder:jobook')
             .sort_by('public_id', 'desc')
             .max_results(100)
             .execute();
-        const publicIds = resources.map(file => file.public_id);
-        res.status(200).json(publicIds);
+        res.status(200).json(images);
     } catch (err) {
         res.status(500).json(err.message);
     }

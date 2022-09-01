@@ -60,7 +60,7 @@ const Login = () => {
                         variant='outlined'
                         fullWidth
                         id='email'
-                        label='Email'
+                        label='Email (Not real email)'
                         inputProps={{type:'email'}}
                         error={Boolean(errors.email)}
                         helperText={errors.email ? errors.email.type === 'pattern' ? 'Email is not valid' : 'Email is required' : ''}
