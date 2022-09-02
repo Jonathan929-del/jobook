@@ -149,7 +149,7 @@ const useStyles = makeStyles({
 
     // Leftbar
     sidebar:{
-        marginTop:65,
+        marginTop:64,
         position:'fixed',
         '@media screen and (max-width:600px)':{
             display:'none'
@@ -474,8 +474,7 @@ const useStyles = makeStyles({
         width:'100%',
         // overflow:'hidden',
         textAlign:'center',
-        padding:'66px 0 0 251px',
-        backgroundColor:'red',
+        padding:'64px 0 0 245px',
         '@media screen and (max-width:600px)':{
             padding:'58px 0'
         }

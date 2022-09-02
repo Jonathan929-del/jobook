@@ -38,7 +38,6 @@ const ProfileImgTextContainer = styled.div`
     display:flex;
     align-items:flex-end;
     justify-content:flex-start;
-    background-color:green;
 `
 
 
