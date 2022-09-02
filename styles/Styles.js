@@ -513,9 +513,11 @@ const useStyles = makeStyles({
         justifyContent:'center'
     },
     profileImgTextContainer:{
+        width:'100%',
         display:'flex',
         alignItems:'flex-end',
-        justifyContent:'flex-start'
+        justifyContent:'flex-start',
+        backgroundColor:'blue'
     },
     bio:{
         width:'100%',
