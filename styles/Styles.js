@@ -472,9 +472,10 @@ const useStyles = makeStyles({
     backgroundPicCom:{
         height:400,
         width:'100%',
-        overflow:'hidden',
+        // overflow:'hidden',
         textAlign:'center',
         padding:'66px 0 0 251px',
+        backgroundColor:'red',
         '@media screen and (max-width:600px)':{
             padding:'58px 0'
         }
