@@ -512,13 +512,6 @@ const useStyles = makeStyles({
         flexDirection:'column',
         justifyContent:'center'
     },
-    profileImgTextContainer:{
-        width:'100%',
-        display:'flex',
-        alignItems:'flex-end',
-        justifyContent:'flex-start',
-        backgroundColor:'blue'
-    },
     bio:{
         width:'100%',
         textAlign:'center',

@@ -33,6 +33,13 @@ const FollowButton = styled.button`
         background-color:${({darkMode}) => darkMode ? '#fff' : '#CCC'};
     }
 `
+const ProfileImgTextContainer = styled.div`
+    width:100%;
+    display:flex;
+    align-items:flex-end;
+    justify-content:flex-start;
+    background-color:blue;
+`
 
 
 // Main Function
@@ -153,10 +160,10 @@ const Profile = ({user, posts}) => {
                         : <div className={classes.backgroundImg}>Background image is not set</div>
                     : <img src={backgroundImgUrl} className={classes.backgroundImg} />}
                 <Container className={classes.profileTextContainer}>
-                    <Container className={classes.profileImgTextContainer}>
+                    <ProfileImgTextContainer>
                         <img src={user?.profilePic ? imgUrl : '/Images/NoUser.png'} className={classes.leftBarProfilePic}/>
                         <Typography component='p' style={{color:darkMode ? '#fff' : '#000'}}>{user.name}</Typography>
-                    </Container>
+                    </ProfileImgTextContainer>
                     {
                         userInfo?.bio && 
                         <Container className={classes.bio}>
