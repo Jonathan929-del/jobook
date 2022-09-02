@@ -515,10 +515,6 @@ const useStyles = makeStyles({
         width:'100%',
         textAlign:'center',
         margin:'20px 0 10px 0',
-
-        '@media screen and (max-width:600px)':{
-            paddingLeft:50
-        }
     },
     /*************************************************/
 

@@ -39,12 +39,6 @@ const ProfileImgTextContainer = styled.div`
     padding-left:30px;
     align-items:flex-end;
     justify-content:flex-start;
-
-    @media screen and (max-width:600px){
-        align-items:center;
-        flex-direction:column;
-        justify-content:center;
-    }
 `
 
 
