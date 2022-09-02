@@ -21,6 +21,7 @@ const FollowButton = styled.button`
     border:none;
     outline:none;
     cursor:pointer;
+    margin-bottom:0;
     margin:20px auto;
     padding:5px 15px;
     border-radius:5px;
@@ -159,11 +160,11 @@ const Profile = ({user, posts}) => {
                     {
                         userInfo?.bio && 
                         <Container className={classes.bio}>
-                            {user.bio}
+                            {user.bio} <br />
+                            {userInfo && user && user?._id !== userInfo?.id && <FollowButton onClick={followHandler} darkMode={darkMode}>{isFollowed ? 'Unfollow' : 'Follow'}</FollowButton>}
                         </Container>
                     }
                 </Container>
-                {userInfo && user && user?._id !== userInfo?.id && <FollowButton onClick={followHandler} darkMode={darkMode}>{isFollowed ? 'Unfollow' : 'Follow'}</FollowButton>}
             </Box>
             <div className={classes.profileFeedContainer}>
                 <Feed posts={arrangedPosts} user={user}/>
