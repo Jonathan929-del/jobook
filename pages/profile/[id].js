@@ -36,8 +36,15 @@ const FollowButton = styled.button`
 const ProfileImgTextContainer = styled.div`
     width:100%;
     display:flex;
+    padding-left:30px;
     align-items:flex-end;
     justify-content:flex-start;
+
+    @media screen and (max-width:600px){
+        align-items:center;
+        flex-direction:column;
+        justify-content:center;
+    }
 `
 
 

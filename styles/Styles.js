@@ -514,7 +514,11 @@ const useStyles = makeStyles({
     bio:{
         width:'100%',
         textAlign:'center',
-        margin:'20px 0 10px 0'
+        margin:'20px 0 10px 0',
+
+        '@media screen and (max-width:600px)':{
+            paddingLeft:50
+        }
     },
     /*************************************************/
 
